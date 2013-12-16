@@ -2,32 +2,45 @@
 package us.shandian.mod.swipeback.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 
 import java.lang.reflect.Method;
 
+import de.robv.android.xposed.XposedBridge;
+
 import us.shandian.mod.swipeback.SwipeBackLayout;
+import us.shandian.mod.swipeback.ModSwipeBack;
 
 /**
  * @author Yrom
  */
 public class SwipeBackActivityHelper {
     private Activity mActivity;
+	private Context mGbContext;
 
     private SwipeBackLayout mSwipeBackLayout;
 
     public SwipeBackActivityHelper(Activity activity) {
         mActivity = activity;
+		try {
+			mGbContext = mActivity.createPackageContext(ModSwipeBack.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
+		} catch (Throwable t) {
+			XposedBridge.log(t);
+		}
     }
 
     @SuppressWarnings("deprecation")
     public void onActivityCreate() {
-        mActivity.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-        mActivity.getWindow().getDecorView().setBackgroundDrawable(null);
-        mSwipeBackLayout = (SwipeBackLayout) LayoutInflater.from(mActivity).inflate(
-                us.shandian.mod.swipeback.R.layout.swipeback_layout, null);
+        // mActivity.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        // mActivity.getWindow().getDecorView().setBackgroundDrawable(null);
+        // mSwipeBackLayout = (SwipeBackLayout) LayoutInflater.from(mGbContext).inflate(
+        //        us.shandian.mod.swipeback.R.layout.swipeback_layout, null);
+		mSwipeBackLayout = new SwipeBackLayout(mGbContext);
+		mSwipeBackLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         mSwipeBackLayout.addSwipeListener(new SwipeBackLayout.SwipeListener() {
             @Override
             public void onScrollStateChange(int state, float scrollPercent) {
@@ -51,6 +64,8 @@ public class SwipeBackActivityHelper {
     public void onPostCreate() {
         mSwipeBackLayout.attachToActivity(mActivity);
         convertActivityFromTranslucent();
+		mActivity.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        mActivity.getWindow().getDecorView().setBackgroundDrawable(null);
     }
 
     public View findViewById(int id) {
