@@ -3,23 +3,32 @@ package us.shandian.mod.swipeback;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.content.res.XResources;
+import android.content.res.XResources.Theme;
+import android.content.res.XModuleResources;
 
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.IXposedHookZygoteInit;
+import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam;
 
 import us.shandian.mod.swipeback.app.SwipeBackActivityHelper;
 import us.shandian.mod.swipeback.SwipeBackLayout;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 
-public class ModSwipeBack implements IXposedHookZygoteInit
+public class ModSwipeBack implements IXposedHookZygoteInit,IXposedHookLoadPackage
 {
 
 	public static final String PACKAGE_NAME = ModSwipeBack.class.getPackage().getName();
+	
+	private ArrayList<String> mBannedPackages = new ArrayList<String>();
 	
 	private HashMap<Activity, SwipeBackActivityHelper> mHelpers = new HashMap<Activity, SwipeBackActivityHelper>();
 	
@@ -27,11 +36,13 @@ public class ModSwipeBack implements IXposedHookZygoteInit
 	public void initZygote(StartupParam param) throws Throwable
 	{
 		try {
-			XposedBridge.log("SwipeBack started");
 			XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
 					@Override
 					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 						Activity activity = (Activity) param.thisObject;
+						if (isAppBanned(activity.getApplication().getApplicationInfo().packageName)) {
+							return;
+						}
 						SwipeBackActivityHelper helper = new SwipeBackActivityHelper(activity);
 						try {
 							helper.onActivityCreate();
@@ -87,5 +98,23 @@ public class ModSwipeBack implements IXposedHookZygoteInit
 	}
 
 
+	@Override
+	public void handleLoadPackage(LoadPackageParam param) throws Throwable {
+		try {
+			Class<?> classImid= XposedHelpers.findClass("me.imid.swipebacklayout.lib.SwipeBackLayout", param.classLoader);
+		} catch (XposedHelpers.ClassNotFoundError e) {
+			return;
+		}
+		mBannedPackages.add(param.packageName);
+	}
+	
+	private boolean isAppBanned(String packageName) {
+		for (String name : mBannedPackages) {
+			if (name.equals(packageName)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

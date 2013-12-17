@@ -4,6 +4,7 @@ package us.shandian.mod.swipeback.app;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.PixelFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -40,7 +41,7 @@ public class SwipeBackActivityHelper {
         // mSwipeBackLayout = (SwipeBackLayout) LayoutInflater.from(mGbContext).inflate(
         //        us.shandian.mod.swipeback.R.layout.swipeback_layout, null);
 		mSwipeBackLayout = new SwipeBackLayout(mGbContext);
-		mSwipeBackLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		// mSwipeBackLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         mSwipeBackLayout.addSwipeListener(new SwipeBackLayout.SwipeListener() {
             @Override
             public void onScrollStateChange(int state, float scrollPercent) {
@@ -64,8 +65,8 @@ public class SwipeBackActivityHelper {
     public void onPostCreate() {
         mSwipeBackLayout.attachToActivity(mActivity);
         convertActivityFromTranslucent();
-		mActivity.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-        mActivity.getWindow().getDecorView().setBackgroundDrawable(null);
+		// mActivity.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        // mActivity.getWindow().getDecorView().setBackgroundDrawable(null);
     }
 
     public View findViewById(int id) {
