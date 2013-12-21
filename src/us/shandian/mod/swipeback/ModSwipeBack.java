@@ -3,10 +3,6 @@ package us.shandian.mod.swipeback;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.content.res.Resources;
-import android.content.res.XResources;
-import android.content.res.XModuleResources;
-import android.content.res.XmlResourceParser;
 
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.XposedBridge;
@@ -22,7 +18,6 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResou
 
 import us.shandian.mod.swipeback.app.SwipeBackActivityHelper;
 import us.shandian.mod.swipeback.SwipeBackLayout;
-import us.shandian.mod.swipeback.R;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -40,6 +35,8 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 	public void initZygote(StartupParam param) throws Throwable
 	{
 		try {
+			loadBannedApps();
+			
 			XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
 					@Override
 					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -96,6 +93,19 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 						}
 					}
 			});
+			
+			Class<?> activityRecord = XposedHelpers.findClass("com.android.server.am.ActivityRecord", null);
+			XposedBridge.hookAllConstructors(activityRecord, new XC_MethodHook() {
+					@Override
+					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+						String pkg = (String) XposedHelpers.getObjectField(param.thisObject, "packageName");
+						XposedBridge.log("pkg: " + pkg);
+						if (!isAppBanned(pkg)) {
+							// Force set to translucent
+							XposedHelpers.setBooleanField(param.thisObject, "fullscreen", false);
+						}
+					}
+			});
 		} catch (Throwable t) {
 			XposedBridge.log(t);
 		}
@@ -119,6 +129,11 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 			}
 		}
 		return false;
+	}
+	
+	private void loadBannedApps() {
+		mBannedPackages.add("com.android.systemui");
+		mBannedPackages.add("com.android.internal");
 	}
 
 }
