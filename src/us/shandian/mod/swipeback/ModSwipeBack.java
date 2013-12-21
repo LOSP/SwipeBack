@@ -2,6 +2,9 @@ package us.shandian.mod.swipeback;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.view.View;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -41,6 +44,7 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 					@Override
 					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 						Activity activity = (Activity) param.thisObject;
+						banLaunchers(activity);
 						if (isAppBanned(activity.getApplication().getApplicationInfo().packageName)) {
 							return;
 						}
@@ -134,6 +138,15 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 	private void loadBannedApps() {
 		mBannedPackages.add("com.android.systemui");
 		mBannedPackages.add("com.android.internal");
+	}
+	
+	private void banLaunchers(Context context) {
+		ActivityInfo homeInfo = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).resolveActivityInfo(context.getPackageManager(), 0);
+		if (homeInfo != null) {
+			if (!mBannedPackages.contains(homeInfo.applicationInfo.packageName)) {
+				mBannedPackages.add(homeInfo.applicationInfo.packageName);
+			}
+		}
 	}
 
 }
