@@ -3,27 +3,31 @@ package us.shandian.mod.swipeback;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.content.res.Resources;
 import android.content.res.XResources;
-import android.content.res.XResources.Theme;
 import android.content.res.XModuleResources;
+import android.content.res.XmlResourceParser;
 
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.IXposedHookLoadPackage;
+import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam;
+import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 
 import us.shandian.mod.swipeback.app.SwipeBackActivityHelper;
 import us.shandian.mod.swipeback.SwipeBackLayout;
+import us.shandian.mod.swipeback.R;
 
 import java.util.HashMap;
 import java.util.ArrayList;
 
-public class ModSwipeBack implements IXposedHookZygoteInit,IXposedHookLoadPackage
+public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPackage
 {
 
 	public static final String PACKAGE_NAME = ModSwipeBack.class.getPackage().getName();
