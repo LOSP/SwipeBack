@@ -2,6 +2,7 @@ package us.shandian.mod.swipeback;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Build;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -102,9 +103,17 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 			XposedBridge.hookAllConstructors(activityRecord, new XC_MethodHook() {
 					@Override
 					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-						String pkg = (String) XposedHelpers.getObjectField(param.thisObject, "packageName");
-						XposedBridge.log("pkg: " + pkg);
-						if (!isAppBanned(pkg)) {
+						String packageName = (String) XposedHelpers.getObjectField(param.thisObject, "packageName");
+						boolean isHomeActivity = false;
+						
+						// Try to ignore home activities
+						if (Build.VERSION.SDK_INT >= 19) {
+							isHomeActivity = (Boolean) XposedHelpers.callMethod(param.thisObject, "isHomeActivity", new Object[0]);
+						} else {
+							isHomeActivity = XposedHelpers.getBooleanField(param.thisObject, "isHomeActivity");
+						}
+						
+						if (!isHomeActivity && !isAppBanned(packageName)) {
 							// Force set to translucent
 							XposedHelpers.setBooleanField(param.thisObject, "fullscreen", false);
 						}
@@ -143,8 +152,8 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 	private void banLaunchers(Context context) {
 		ActivityInfo homeInfo = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).resolveActivityInfo(context.getPackageManager(), 0);
 		if (homeInfo != null) {
-			if (!mBannedPackages.contains(homeInfo.applicationInfo.packageName)) {
-				mBannedPackages.add(homeInfo.applicationInfo.packageName);
+			if (!isAppBanned(homeInfo.packageName)) {
+				mBannedPackages.add(homeInfo.packageName);
 			}
 		}
 	}
