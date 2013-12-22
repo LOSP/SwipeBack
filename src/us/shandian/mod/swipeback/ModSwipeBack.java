@@ -119,6 +119,44 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 						}
 					}
 			});
+			
+			// The following hacks are only for releases newer than 4.4 1
+			if (!newerThanRelease("4.4.1")) return;
+			
+			XposedHelpers.findAndHookMethod("com.android.server.am.ActivityStack", null, "isActivityOverHome", activityRecord, new XC_MethodReplacement() {
+					@Override
+					protected Object replaceHookedMethod(MethodHookParam param) throws Throwable
+					{
+						// This method code is from old Android version
+						// Will fix translucent stack display
+						// Do nothing on older releases
+						Object recordTask = XposedHelpers.getObjectField(param.args[0], "task");
+						Object mTaskHistory = XposedHelpers.getObjectField(param.thisObject, "mTaskHistory");
+						int index = (Integer) XposedHelpers.callMethod(mTaskHistory, "size");
+						for (int taskNdx = index - 1; taskNdx >= 0; --taskNdx) {
+							// Look down in history
+							Object task = XposedHelpers.callMethod(mTaskHistory, "get", taskNdx);
+							if (task != recordTask) break;
+							Object activities = XposedHelpers.getObjectField(task, "mActivities");
+							int rIndex = (Integer) XposedHelpers.callMethod(activities, "indexOf", param.args[0]);
+							for (--rIndex; rIndex >= 0; --rIndex) {
+								// Look down in tasks
+								final Object blocker = XposedHelpers.callMethod(activities, "get", rIndex);
+								boolean finishing = XposedHelpers.getBooleanField(blocker, "finishing");
+								if (!finishing) {
+									break;
+								}
+							}
+							
+							// Arrived bottom, but nothing found
+							if (rIndex < 0) {
+								return true;
+							}
+						}
+						
+						return false;
+					}
+			});
 		} catch (Throwable t) {
 			XposedBridge.log(t);
 		}
@@ -156,6 +194,21 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 				mBannedPackages.add(homeInfo.packageName);
 			}
 		}
+	}
+	
+	private boolean newerThanRelease(String r) {
+		int release = Integer.parseInt(Build.VERSION.RELEASE.replace(".", ""));
+		int compare = Integer.parseInt(r.replace(".", ""));
+		if (release < 100) {
+			release = release * 10;
+		}
+		
+		if (compare < 100) {
+			compare = compare * 10;
+		}
+		
+		return (release >= compare);
+		
 	}
 
 }
