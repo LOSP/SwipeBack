@@ -131,27 +131,20 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 						// Will fix translucent stack display
 						// Do nothing on older releases
 						Object recordTask = XposedHelpers.getObjectField(param.args[0], "task");
-						Object mTaskHistory = XposedHelpers.getObjectField(param.thisObject, "mTaskHistory");
-						int index = (Integer) XposedHelpers.callMethod(mTaskHistory, "size");
-						for (int taskNdx = index - 1; taskNdx >= 0; --taskNdx) {
-							// Look down in history
-							Object task = XposedHelpers.callMethod(mTaskHistory, "get", taskNdx);
-							if (task != recordTask) break;
-							Object activities = XposedHelpers.getObjectField(task, "mActivities");
-							int rIndex = (Integer) XposedHelpers.callMethod(activities, "indexOf", param.args[0]);
-							for (--rIndex; rIndex >= 0; --rIndex) {
-								// Look down in tasks
-								final Object blocker = XposedHelpers.callMethod(activities, "get", rIndex);
-								boolean finishing = XposedHelpers.getBooleanField(blocker, "finishing");
-								if (!finishing) {
-									break;
-								}
+						Object activities = XposedHelpers.getObjectField(recordTask, "mActivities");
+						int rIndex = (Integer) XposedHelpers.callMethod(activities, "indexOf", param.args[0]);
+						for (--rIndex; rIndex >= 0; --rIndex) {
+							// Look down in tasks
+							final Object blocker = XposedHelpers.callMethod(activities, "get", rIndex);
+							boolean finishing = XposedHelpers.getBooleanField(blocker, "finishing");
+							if (!finishing) {
+								break;
 							}
+						}
 							
-							// Arrived bottom, but nothing found
-							if (rIndex < 0) {
-								return true;
-							}
+						// Arrived bottom, but nothing found
+						if (rIndex < 0) {
+							return true;
 						}
 						
 						return false;
