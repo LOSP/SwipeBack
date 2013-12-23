@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">SwipeBack</string>
+	
+	<!-- Swipe settings -->
+	<string name="swipe_enable">Enable Swipe Back Gesture</string>
+	<string name="swipe_edge">Swipe Edge</string>
+	<string name="swipe_edge_left">Left</string>
+	<string name="swipe_edge_right">Right</string>
+	<string name="swipe_edge_bottom">Bottom</string>
+	<string name="swipe_edge_all">All</string>
 
 </resources>

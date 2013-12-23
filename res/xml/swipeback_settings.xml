@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	
+	<CheckBoxPreference
+		android:key="swipeback_enable"
+		android:title="@string/swipe_enable"
+		android:defaultValue="true"/>
+	
+	<ListPreference
+		android:key="swipeback_edge"
+		android:title="@string/swipe_edge"
+		android:dialogTitle="@string/swipe_edge"
+		android:entries="@array/swipe_edges_entries"
+		android:entryValues="@array/swipe_edges_values"
+		android:dependency="swipeback_enable"/>
+	
+</PreferenceScreen>

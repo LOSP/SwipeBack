@@ -10,7 +10,18 @@
 
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+		android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
+		
+		<activity
+			android:label="@string/app_name"
+			android:name=".ui.SwipeBackSettings">
+			<intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+		</activity>
 		<meta-data android:value="true" android:name="xposedmodule"/>
         <meta-data android:value="30+" android:name="xposedminversion"/>
         <meta-data android:value="Xposed Module that enables global swipe back gesture." android:name="xposeddescription"/>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">滑动返回</string>
+
+	<!-- Swipe settings -->
+	<string name="swipe_enable">启用滑动返回手势</string>
+	<string name="swipe_edge">滑动监听边缘</string>
+	<string name="swipe_edge_left">左边</string>
+	<string name="swipe_edge_right">右边</string>
+	<string name="swipe_edge_bottom">底边</string>
+	<string name="swipe_edge_all">全部</string>
+
+</resources>

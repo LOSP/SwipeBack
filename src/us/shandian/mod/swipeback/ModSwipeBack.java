@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.view.View;
 
+import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -30,16 +31,25 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 {
 
 	public static final String PACKAGE_NAME = ModSwipeBack.class.getPackage().getName();
+	public static final String PREFS = "SwipeBackSettings";
+	
+	public static final String SWIPEBACK_ENABLE = "swipeback_enable";
+	public static final String SWIPEBACK_EDGE = "swipeback_edge";
 	
 	private ArrayList<String> mBannedPackages = new ArrayList<String>();
 	
 	private HashMap<Activity, SwipeBackActivityHelper> mHelpers = new HashMap<Activity, SwipeBackActivityHelper>();
+	
+	private static XSharedPreferences prefs;
 	
 	@Override
 	public void initZygote(StartupParam param) throws Throwable
 	{
 		try {
 			loadBannedApps();
+			
+			prefs = new XSharedPreferences(PACKAGE_NAME, PREFS);
+			prefs.makeWorldReadable();
 			
 			XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
 					@Override
@@ -49,16 +59,32 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 						if (isAppBanned(activity.getApplication().getApplicationInfo().packageName)) {
 							return;
 						}
-						SwipeBackActivityHelper helper = new SwipeBackActivityHelper(activity);
-						try {
+						
+						// Do this only when enabled
+						prefs.reload();
+						if (prefs.getBoolean(SWIPEBACK_ENABLE, true)) {
+							SwipeBackActivityHelper helper = new SwipeBackActivityHelper(activity);
 							helper.onActivityCreate();
 							helper.getSwipeBackLayout().setEnableGesture(true);
-							helper.getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_BOTTOM);
-						} catch (Throwable t) {
-							XposedBridge.log(t);
-							helper = null;
+							// Get the egde
+							int edge = SwipeBackLayout.EDGE_LEFT;
+							switch (prefs.getInt(SWIPEBACK_EDGE, 0)) {
+								case 0:
+									edge = SwipeBackLayout.EDGE_LEFT;
+									break;
+								case 1:
+									edge = SwipeBackLayout.EDGE_RIGHT;
+									break;
+								case 2:
+									edge = SwipeBackLayout.EDGE_BOTTOM;
+									break;
+								case 3:
+									edge = SwipeBackLayout.EDGE_ALL;
+									break;
+							}
+							helper.getSwipeBackLayout().setEdgeTrackingEnabled(edge);
+							mHelpers.put(activity, helper);
 						}
-						mHelpers.put(activity, helper);
 					}
 			});
 			
@@ -103,6 +129,10 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 			XposedBridge.hookAllConstructors(activityRecord, new XC_MethodHook() {
 					@Override
 					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+						// If not enabled, ignore
+						prefs.reload();
+						if (!prefs.getBoolean(SWIPEBACK_ENABLE, true)) return;
+						
 						String packageName = (String) XposedHelpers.getObjectField(param.thisObject, "packageName");
 						boolean isHomeActivity = false;
 						
