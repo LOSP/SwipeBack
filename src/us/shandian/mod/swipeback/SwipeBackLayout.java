@@ -82,6 +82,8 @@ public class SwipeBackLayout extends FrameLayout {
     private float mScrollThreshold = DEFAULT_SCROLL_THRESHOLD;
 
     private Activity mActivity;
+	
+	private Context mGbContext;
 
     private boolean mEnable = true;
 
@@ -119,19 +121,20 @@ public class SwipeBackLayout extends FrameLayout {
      */
     private int mTrackingEdge;
 
-    public SwipeBackLayout(Context context) {
-        this(context, null);
+    public SwipeBackLayout(Context context, Context gbContext) {
+        this(context, gbContext, null);
     }
 
-    public SwipeBackLayout(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.SwipeBackLayoutStyle);
+    public SwipeBackLayout(Context context, Context gbContext, AttributeSet attrs) {
+        this(context, gbContext, attrs, R.attr.SwipeBackLayoutStyle);
     }
 
-    public SwipeBackLayout(Context context, AttributeSet attrs, int defStyle) {
+    public SwipeBackLayout(Context context, Context gbContext, AttributeSet attrs, int defStyle) {
         super(context, attrs);
         mDragHelper = ViewDragHelper.create(this, new ViewDragCallback());
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SwipeBackLayout, defStyle,
+		mGbContext = gbContext;
+        TypedArray a = mGbContext.obtainStyledAttributes(attrs, R.styleable.SwipeBackLayout, defStyle,
                 R.style.SwipeBackLayout);
 
         int edgeSize = a.getDimensionPixelSize(R.styleable.SwipeBackLayout_edge_size, -1);
@@ -317,7 +320,7 @@ public class SwipeBackLayout extends FrameLayout {
      * @see #EDGE_BOTTOM
      */
     public void setShadow(int resId, int edgeFlag) {
-        setShadow(getResources().getDrawable(resId), edgeFlag);
+        setShadow(mGbContext.getResources().getDrawable(resId), edgeFlag);
     }
 
     /**

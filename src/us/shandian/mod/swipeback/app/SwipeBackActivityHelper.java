@@ -40,7 +40,7 @@ public class SwipeBackActivityHelper {
         // mActivity.getWindow().getDecorView().setBackgroundDrawable(null);
         // mSwipeBackLayout = (SwipeBackLayout) LayoutInflater.from(mGbContext).inflate(
         //        us.shandian.mod.swipeback.R.layout.swipeback_layout, null);
-		mSwipeBackLayout = new SwipeBackLayout(mGbContext);
+		mSwipeBackLayout = new SwipeBackLayout(mActivity, mGbContext);
 		// mSwipeBackLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         mSwipeBackLayout.addSwipeListener(new SwipeBackLayout.SwipeListener() {
             @Override
