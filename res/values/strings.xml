@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">SwipeBack</string>
+	<string name="app_des">Enables global swipe back gesture.</string>
 	
 	<!-- Swipe settings -->
 	<string name="swipe_enable">Enable Swipe Back Gesture</string>

@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">滑动返回</string>
+	<string name="app_des">开启全局滑动返回支持</string>
 
 	<!-- Swipe settings -->
 	<string name="swipe_enable">启用滑动返回手势</string>

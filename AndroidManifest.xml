@@ -34,7 +34,7 @@
 		</activity>
 		<meta-data android:value="true" android:name="xposedmodule"/>
         <meta-data android:value="42+" android:name="xposedminversion"/>
-        <meta-data android:value="Xposed Module that enables global swipe back gesture." android:name="xposeddescription"/>
+        <meta-data android:value="@string/app_des" android:name="xposeddescription"/>
     </application>
 
 </manifest>
