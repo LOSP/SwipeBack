@@ -33,7 +33,7 @@
 			</intent-filter>
 		</activity>
 		<meta-data android:value="true" android:name="xposedmodule"/>
-        <meta-data android:value="30+" android:name="xposedminversion"/>
+        <meta-data android:value="42+" android:name="xposedminversion"/>
         <meta-data android:value="Xposed Module that enables global swipe back gesture." android:name="xposeddescription"/>
     </application>
 
