@@ -10,5 +10,9 @@
 	<string name="swipe_edge_right">Right</string>
 	<string name="swipe_edge_bottom">Bottom</string>
 	<string name="swipe_edge_all">All</string>
+	
+	<!-- Swipe blacklist -->
+	<string name="swipe_blacklist">Blacklist</string>
+	<string name="swipe_blacklist_des">Disable on apps that seem not working with swipe back gesture</string>
 
 </resources>

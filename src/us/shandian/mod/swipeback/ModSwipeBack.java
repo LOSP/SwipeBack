@@ -31,6 +31,7 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 
 	public static final String PACKAGE_NAME = ModSwipeBack.class.getPackage().getName();
 	public static final String PREFS = "SwipeBackSettings";
+	public static final String BLACKLIST = "SwipeBackBlacklist";
 	
 	public static final String SWIPEBACK_ENABLE = "swipeback_enable";
 	public static final String SWIPEBACK_EDGE = "swipeback_edge";
@@ -38,6 +39,7 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 	private ArrayList<String> mBannedPackages = new ArrayList<String>();
 	
 	private static XSharedPreferences prefs;
+	private static XSharedPreferences blacklist;
 	
 	@Override
 	public void initZygote(StartupParam param) throws Throwable
@@ -47,6 +49,9 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 			
 			prefs = new XSharedPreferences(PACKAGE_NAME, PREFS);
 			prefs.makeWorldReadable();
+			
+			blacklist = new XSharedPreferences(PACKAGE_NAME, BLACKLIST);
+			blacklist.makeWorldReadable();
 			
 			XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
 					@Override
@@ -183,6 +188,11 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 	}
 	
 	private boolean isAppBanned(String packageName) {
+		blacklist.reload();
+		if (blacklist.getBoolean(packageName, false)) {
+			return true;
+		}
+		
 		for (String name : mBannedPackages) {
 			if (name.equals(packageName)) {
 				return true;

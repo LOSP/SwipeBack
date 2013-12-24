@@ -15,4 +15,13 @@
 		android:entryValues="@array/swipe_edges_values"
 		android:dependency="swipeback_enable"/>
 	
+	<Preference
+		android:title="@string/swipe_blacklist"
+		android:summary="@string/swipe_blacklist_des"
+		android:dependency="swipeback_enable">
+		<intent android:action="us.shandian.mod.swipeback.intent.BLACKLIST"
+				android:targetPackage="us.shandian.mod.swipeback"
+				android:targetClass="us.shandian.mod.swipeback.ui.SwipeBackBlacklist"/>
+	</Preference>
+	
 </PreferenceScreen>

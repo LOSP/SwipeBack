@@ -10,5 +10,10 @@
 	<string name="swipe_edge_right">右边</string>
 	<string name="swipe_edge_bottom">底边</string>
 	<string name="swipe_edge_all">全部</string>
+	
+	<!-- Swipe blacklist -->
+	<string name="swipe_blacklist">黑名单</string>
+	<string name="swipe_blacklist_des">在与滑动返回不兼容的App上禁用滑动返回</string>
+	
 
 </resources>
