@@ -24,7 +24,6 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResou
 import us.shandian.mod.swipeback.app.SwipeBackActivityHelper;
 import us.shandian.mod.swipeback.SwipeBackLayout;
 
-import java.util.HashMap;
 import java.util.ArrayList;
 
 public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPackage
@@ -37,8 +36,6 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 	public static final String SWIPEBACK_EDGE = "swipeback_edge";
 	
 	private ArrayList<String> mBannedPackages = new ArrayList<String>();
-	
-	private HashMap<Activity, SwipeBackActivityHelper> mHelpers = new HashMap<Activity, SwipeBackActivityHelper>();
 	
 	private static XSharedPreferences prefs;
 	
@@ -83,7 +80,7 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 									break;
 							}
 							helper.getSwipeBackLayout().setEdgeTrackingEnabled(edge);
-							mHelpers.put(activity, helper);
+							XposedHelpers.setAdditionalInstanceField(activity, "mSwipeHelper", helper);
 						}
 					}
 			});
@@ -92,7 +89,7 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 					@Override
 					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 						Activity activity = (Activity) param.thisObject;
-						SwipeBackActivityHelper helper = mHelpers.get(activity);
+						SwipeBackActivityHelper helper = (SwipeBackActivityHelper) XposedHelpers.getAdditionalInstanceField(activity, "mSwipeHelper");
 						if (helper != null) {
 							helper.onPostCreate();
 						}
@@ -105,22 +102,11 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 					protected void afterHookedMethod(MethodHookParam param) throws Throwable
 					{
 						Activity activity = (Activity) param.thisObject;
-						SwipeBackActivityHelper helper = mHelpers.get(activity);
+						SwipeBackActivityHelper helper = (SwipeBackActivityHelper) XposedHelpers.getAdditionalInstanceField(activity, "mSwipeHelper");
 						Object ret = param.getResult();
 						if (ret == null && helper != null) {
 							ret = helper.findViewById((Integer) param.args[0]);
 							param.setResult(ret);
-						}
-					}
-			});
-			
-			XposedHelpers.findAndHookMethod(Activity.class, "finish", new XC_MethodHook() {
-					@Override
-					protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-						Activity activity = (Activity) param.thisObject;
-						SwipeBackActivityHelper helper = mHelpers.get(activity);
-						if (helper != null) {
-							mHelpers.remove(activity);
 						}
 					}
 			});
