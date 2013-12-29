@@ -65,8 +65,7 @@ public class SwipeBackActivityHelper {
     public void onPostCreate() {
         mSwipeBackLayout.attachToActivity(mActivity);
         convertActivityFromTranslucent();
-		mActivity.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-        mActivity.getWindow().getDecorView().setBackgroundDrawable(null);
+        mActivity.getWindow().setBackgroundDrawable(new ColorDrawable(0));
     }
 
     public View findViewById(int id) {
