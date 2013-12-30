@@ -1,11 +1,14 @@
 package us.shandian.mod.swipeback.ui;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
+import android.os.Message;
+import android.os.Handler;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Menu;
@@ -21,6 +24,18 @@ public class SwipeBackBlacklist extends ListActivity
 {
 	private Context mContext;
 	private ApplicationAdapter mAdapter;
+	private ProgressDialog mDialog;
+	private Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg)
+		{
+			if (msg.what == 0) {
+				setListAdapter(mAdapter);
+				mDialog.dismiss();
+			}
+		}
+	};
 	
 	private SharedPreferences blacklist;
 	
@@ -36,10 +51,15 @@ public class SwipeBackBlacklist extends ListActivity
 		
 		// Init the list
 		mContext = this;
-		mAdapter = new ApplicationAdapter(mContext, R.id.save_blacklist, getAppList());
-		readFromBlacklist();
-		
-		setListAdapter(mAdapter);
+		mDialog = ProgressDialog.show(mContext, "", mContext.getString(R.string.please_wait), true, false);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				mAdapter = new ApplicationAdapter(mContext, R.id.save_blacklist, getAppList());
+				readFromBlacklist();
+				mHandler.sendEmptyMessage(0);
+			}
+		}).start();
 	}
 	
 	@Override
@@ -65,13 +85,13 @@ public class SwipeBackBlacklist extends ListActivity
 	}
 	
 	private ArrayList<ApplicationInfo> getAppList() {
+		
 		List<ApplicationInfo> list = mContext.getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA);
 		ArrayList<ApplicationInfo> applist = new ArrayList<ApplicationInfo>();
 		for (ApplicationInfo info : list) {
 			try {
 				if (null != mContext.getPackageManager().getLaunchIntentForPackage(info.packageName) 
-					&& !info.packageName.equals(mContext.getApplicationInfo().packageName) 
-					&& (info.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
+					&& !info.packageName.equals(mContext.getApplicationInfo().packageName)) {
 					applist.add(info);
 				}
 			} catch (Exception e) {
