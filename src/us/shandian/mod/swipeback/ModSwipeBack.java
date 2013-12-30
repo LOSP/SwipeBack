@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Build;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.content.pm.ActivityInfo;
 import android.view.View;
 
@@ -58,6 +59,7 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 						Activity activity = (Activity) param.thisObject;
 						banLaunchers(activity);
+						
 						if (isAppBanned(activity.getApplication().getApplicationInfo().packageName)) {
 							return;
 						}
@@ -95,6 +97,16 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 						Activity activity = (Activity) param.thisObject;
 						SwipeBackActivityHelper helper = (SwipeBackActivityHelper) XposedHelpers.getAdditionalInstanceField(activity, "mSwipeHelper");
+						
+						// Try to ignore dialogs
+						Class<?> styleable = XposedHelpers.findClass("com.android.internal.R.styleable", null);
+						int Window_windowIsFloating = XposedHelpers.getStaticIntField(styleable, "Window_windowIsFloating");
+						boolean windowIsFloating = activity.getWindow().getWindowStyle().getBoolean(Window_windowIsFloating, false);
+						if (windowIsFloating) {
+							helper = null;
+							XposedHelpers.removeAdditionalInstanceField(activity, "mSwipeHelper");
+						}
+						
 						if (helper != null) {
 							helper.onPostCreate();
 						}
