@@ -41,6 +41,10 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 	public static final String SWIPEBACK_ENABLE = "swipeback_enable";
 	public static final String SWIPEBACK_EDGE = "swipeback_edge";
 	
+	public static final int SWIPEBACK_EDGE_LEFT = 1;
+	public static final int SWIPEBACK_EDGE_RIGHT = 2;
+	public static final int SWIPEBACK_EDGE_BOTTOM = 4;
+	
 	private ArrayList<String> mBannedPackages = new ArrayList<String>();
 	
 	private static XSharedPreferences prefs;
@@ -84,22 +88,19 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 							helper.onActivityCreate();
 							helper.getSwipeBackLayout().setEnableGesture(true);
 							// Get the egde
-							int edge = SwipeBackLayout.EDGE_LEFT;
-							switch (prefs.getInt(SWIPEBACK_EDGE, 0)) {
-								case 0:
-									edge = SwipeBackLayout.EDGE_LEFT;
-									break;
-								case 1:
-									edge = SwipeBackLayout.EDGE_RIGHT;
-									break;
-								case 2:
-									edge = SwipeBackLayout.EDGE_BOTTOM;
-									break;
-								case 3:
-									edge = SwipeBackLayout.EDGE_ALL;
-									break;
+							int edge = prefs.getInt(SWIPEBACK_EDGE, 0 | SWIPEBACK_EDGE_LEFT);
+							int trackEdge = 0;
+							if ((edge & SWIPEBACK_EDGE_LEFT) != 0) {
+								trackEdge |= SwipeBackLayout.EDGE_LEFT;
 							}
-							helper.getSwipeBackLayout().setEdgeTrackingEnabled(edge);
+							if ((edge & SWIPEBACK_EDGE_RIGHT) != 0) {
+								trackEdge |= SwipeBackLayout.EDGE_RIGHT;
+							}
+							if ((edge & SWIPEBACK_EDGE_BOTTOM) != 0) {
+								trackEdge |= SwipeBackLayout.EDGE_BOTTOM;
+							}
+							helper.getSwipeBackLayout().setEdgeTrackingEnabled(trackEdge);
+							
 							XposedHelpers.setAdditionalInstanceField(activity, "mSwipeHelper", helper);
 						}
 					}

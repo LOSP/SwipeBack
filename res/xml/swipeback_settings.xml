@@ -7,12 +7,13 @@
 		android:title="@string/swipe_enable"
 		android:defaultValue="true"/>
 	
-	<ListPreference
+	<MultiSelectListPreference
 		android:key="swipeback_edge"
 		android:title="@string/swipe_edge"
 		android:dialogTitle="@string/swipe_edge"
 		android:entries="@array/swipe_edges_entries"
 		android:entryValues="@array/swipe_edges_values"
+		android:defaultValue="@array/swipe_edges_values"
 		android:dependency="swipeback_enable"/>
 	
 	<Preference

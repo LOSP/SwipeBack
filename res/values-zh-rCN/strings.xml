@@ -13,7 +13,6 @@
 	<string name="swipe_edge_left">左边</string>
 	<string name="swipe_edge_right">右边</string>
 	<string name="swipe_edge_bottom">底边</string>
-	<string name="swipe_edge_all">全部</string>
 	
 	<!-- Swipe blacklist -->
 	<string name="swipe_blacklist">黑名单</string>

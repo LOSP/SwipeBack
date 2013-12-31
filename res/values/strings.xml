@@ -13,7 +13,6 @@
 	<string name="swipe_edge_left">Left</string>
 	<string name="swipe_edge_right">Right</string>
 	<string name="swipe_edge_bottom">Bottom</string>
-	<string name="swipe_edge_all">All</string>
 	
 	<!-- Swipe blacklist -->
 	<string name="swipe_blacklist">Blacklist</string>
