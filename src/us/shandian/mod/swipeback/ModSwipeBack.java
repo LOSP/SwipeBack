@@ -3,11 +3,15 @@ package us.shandian.mod.swipeback;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.content.pm.ActivityInfo;
 import android.view.View;
+import android.provider.Settings;
+import android.database.ContentObserver;
 
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedHelpers;
@@ -63,6 +67,15 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 						if (isAppBanned(activity.getApplication().getApplicationInfo().packageName)) {
 							return;
 						}
+						
+						// Request for rotation
+						boolean isRotationLocked = (Settings.System.getInt(activity.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, 0) == 0);
+						if (!isRotationLocked) {
+							activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+						}
+						ContentObserver mObserver = new RotateObserver(activity, new RotateHandler(activity));
+						activity.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.ACCELEROMETER_ROTATION), false, mObserver);
+						XposedHelpers.setAdditionalInstanceField(activity, "mObserver", mObserver);
 						
 						// Do this only when enabled
 						prefs.reload();
@@ -127,6 +140,21 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 						}
 					}
 			});
+			
+			XposedHelpers.findAndHookMethod(Activity.class, "finish", new XC_MethodHook() {
+
+					@Override
+					protected void afterHookedMethod(MethodHookParam param) throws Throwable
+					{
+						// Unregister the rotate observer
+						Activity activity = (Activity) param.thisObject;
+						ContentObserver mObserver = (ContentObserver) XposedHelpers.getAdditionalInstanceField(activity, "mObserver");
+						if (mObserver != null) {
+							activity.getContentResolver().unregisterContentObserver(mObserver);
+							XposedHelpers.removeAdditionalInstanceField(activity, "mObserver");
+						}
+					}
+				});
 			
 			Class<?> activityRecord = XposedHelpers.findClass("com.android.server.am.ActivityRecord", null);
 			XposedBridge.hookAllConstructors(activityRecord, new XC_MethodHook() {
@@ -242,4 +270,40 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 		
 	}
 
+	private class RotateObserver extends ContentObserver {
+		private Activity mActivity;
+		private Handler mHandler;
+		
+		public RotateObserver(Activity activity, Handler handler) {
+			super(handler);
+			mActivity = activity;
+			mHandler = handler;
+		}
+		
+		@Override
+		public void onChange(boolean selfChange) {
+			boolean isRotationLocked = (Settings.System.getInt(mActivity.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, 0) == 0);
+			mHandler.sendMessage(mHandler.obtainMessage(0, isRotationLocked));
+		}
+	}
+	
+	private class RotateHandler extends Handler {
+		private Activity mActivity;
+		
+		public RotateHandler(Activity activity) {
+			mActivity = activity;
+		}
+
+		@Override
+		public void handleMessage(Message msg)
+		{
+			if (msg.what == 0) {
+				if (!(Boolean) msg.obj) {
+					mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+				} else {
+					mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+				}
+			}
+		}
+	}
 }

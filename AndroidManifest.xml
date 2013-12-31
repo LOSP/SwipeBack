@@ -3,7 +3,7 @@
     package="us.shandian.mod.swipeback"
     android:versionCode="2"
     android:versionName="1.0.2" >
-
+	
     <uses-sdk 
         android:minSdkVersion="16" 
         android:targetSdkVersion="19" />
