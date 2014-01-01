@@ -4,6 +4,18 @@
     <string name="app_name">SwipeBack</string>
 	<string name="app_des">Enables global swipe back gesture.</string>
 	
+	<!-- First-run tutorial -->
+	<string name="tutorial_next">Next</string>
+	<string name="tutorial_finish">Finish</string>
+	<string name="tutorial_welcome_title">Welcome</string>
+	<string name="tutorial_welcome_content">Welcome to SwipeBack. \nSwipeBack will greatly improve your Android experience. \nPress "Next" to continue.</string>
+	<string name="tutorial_enable_title">Enable</string>
+	<string name="tutorial_enable_content">After enabling SwipeBack in Xposed Framework, tick the checkbox, then SwipeBack will work for you. \nEnabing/Disabling this needs restart of each running app.</string>
+	<string name="tutorial_edge_title">Edges</string>
+	<string name="tutorial_edge_content">You can choose swipe edges to use. \ne.g. "Left" means you can swipe from the left of each activity to the right to finish it. </string>
+	<string name="tutorial_over_title">Over</string>
+	<string name="tutorial_over_content">Tutorial finished. \nEnjoy!</string>
+	
 	<!-- Messages -->
 	<string name="please_wait">Plese wait...</string>
 	

@@ -4,6 +4,18 @@
     <string name="app_name">滑动返回</string>
 	<string name="app_des">开启全局滑动返回支持</string>
 	
+	<!-- First-run tutorial -->
+	<string name="tutorial_next">继续</string>
+	<string name="tutorial_finish">完成</string>
+	<string name="tutorial_welcome_title">欢迎</string>
+	<string name="tutorial_welcome_content">欢迎使用滑动返回. \n滑动返回将带给您全新的Android体验. \n按 "继续" 进入向导.</string>
+	<string name="tutorial_enable_title">启用</string>
+	<string name="tutorial_enable_content">在Xposed框架中激活后，勾选这里的“启用”，滑动返回才会工作. \n开启和关闭滑动返回需要重启正在运行的程序才能生效.</string>
+	<string name="tutorial_edge_title">边缘</string>
+	<string name="tutorial_edge_content">你可以自定义滑动边缘. \n例如. "左边" 代表您可以从一个Activity的左边划到右边来结束它. </string>
+	<string name="tutorial_over_title">结束</string>
+	<string name="tutorial_over_content">向导结束. \n好好享受吧!</string>
+	
 	<!-- Messages -->
 	<string name="please_wait">请稍候...</string>
 

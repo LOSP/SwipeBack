@@ -1,4 +1,7 @@
 /bin
 /gen
 /obj
+/libs/*/bin
+/libs/*/gen
+/libs/*/obj
 /libs/*/*.so

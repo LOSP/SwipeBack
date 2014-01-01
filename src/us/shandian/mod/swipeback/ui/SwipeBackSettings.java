@@ -9,19 +9,32 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.content.SharedPreferences;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.Set;
 import java.util.HashSet;
+
+import com.espian.showcaseview.ShowcaseView;
+import com.espian.showcaseview.ShowcaseView.ConfigOptions;
+import com.espian.showcaseview.OnShowcaseEventListener;
+import com.espian.showcaseview.targets.ViewTarget;
+import com.espian.showcaseview.targets.PointTarget;
+import com.espian.showcaseview.targets.ActionViewTarget;
+import com.espian.showcaseview.targets.Target;
 
 import us.shandian.mod.swipeback.R;
 import us.shandian.mod.swipeback.ModSwipeBack;
 
 public class SwipeBackSettings extends PreferenceActivity implements OnPreferenceChangeListener, OnPreferenceClickListener
 {
+	private final String FIRST_RUN = "first_run";
+	
 	private SharedPreferences prefs;
 	
 	private CheckBoxPreference mSwipeEnable;
 	private MultiSelectListPreference mSwipeEdge;
+	
+	private ConfigOptions mConfig;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +66,84 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 		mSwipeEdge.setValues(edges);
 		mSwipeEdge.setSummary(summary.toString());
 		mSwipeEdge.setOnPreferenceChangeListener(this);
+		
+		// First-run tutorial
+		if (!prefs.getBoolean(FIRST_RUN, true)) return;
+		
+		mConfig = new ConfigOptions();
+		mConfig.insert = ShowcaseView.INSERT_TO_VIEW;
+		ShowcaseView showcase = ShowcaseView.insertShowcaseView(new PointTarget(0, 0), this, R.string.tutorial_welcome_title, R.string.tutorial_welcome_content, mConfig);
+		showcase.setButtonText(getResources().getString(R.string.tutorial_next));
+		showcase.setOnShowcaseEventListener(new OnShowcaseEventListener() {
+
+				@Override
+				public void onShowcaseViewHide(ShowcaseView showcaseView)
+				{
+					ShowcaseView showcase = ShowcaseView.insertShowcaseView(new PointTarget(0, 0), SwipeBackSettings.this, R.string.tutorial_enable_title, R.string.tutorial_enable_content, mConfig);
+					showcase.setButtonText(getResources().getString(R.string.tutorial_next));
+					showcase.setOnShowcaseEventListener(new OnShowcaseEventListener() {
+
+							@Override
+							public void onShowcaseViewHide(ShowcaseView showcaseView)
+							{
+								ShowcaseView showcase = ShowcaseView.insertShowcaseView(new PointTarget(0, 100), SwipeBackSettings.this, R.string.tutorial_edge_title, R.string.tutorial_edge_content, mConfig);
+								showcase.setButtonText(getResources().getString(R.string.tutorial_next));
+								showcase.setOnShowcaseEventListener(new OnShowcaseEventListener() {
+
+										@Override
+										public void onShowcaseViewHide(ShowcaseView showcaseView)
+										{
+											ShowcaseView showcase = ShowcaseView.insertShowcaseView(new PointTarget(0, 0), SwipeBackSettings.this, R.string.tutorial_over_title, R.string.tutorial_over_content, mConfig);
+											showcase.setButtonText(getResources().getString(R.string.tutorial_finish));
+											prefs.edit().putBoolean(FIRST_RUN, false).commit();
+										}
+
+										@Override
+										public void onShowcaseViewDidHide(ShowcaseView showcaseView)
+										{
+
+										}
+
+										@Override
+										public void onShowcaseViewShow(ShowcaseView showcaseView)
+										{
+
+										}
+
+
+									});
+							}
+
+							@Override
+							public void onShowcaseViewDidHide(ShowcaseView showcaseView)
+							{
+
+							}
+
+							@Override
+							public void onShowcaseViewShow(ShowcaseView showcaseView)
+							{
+
+							}
+
+
+						});
+				}
+
+				@Override
+				public void onShowcaseViewDidHide(ShowcaseView showcaseView)
+				{
+					
+				}
+
+				@Override
+				public void onShowcaseViewShow(ShowcaseView showcaseView)
+				{
+					
+				}
+
+			
+		});
 	}
 	
 	@Override
