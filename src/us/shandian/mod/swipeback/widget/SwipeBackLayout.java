@@ -1,5 +1,5 @@
 
-package us.shandian.mod.swipeback;
+package us.shandian.mod.swipeback.widget;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,6 +15,8 @@ import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import us.shandian.mod.swipeback.R;
 
 public class SwipeBackLayout extends FrameLayout {
     /**

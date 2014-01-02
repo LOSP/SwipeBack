@@ -1,4 +1,4 @@
-package us.shandian.mod.swipeback;
+package us.shandian.mod.swipeback.hook;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -27,14 +27,14 @@ import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 
 import us.shandian.mod.swipeback.app.SwipeBackActivityHelper;
-import us.shandian.mod.swipeback.SwipeBackLayout;
+import us.shandian.mod.swipeback.widget.SwipeBackLayout;
 
 import java.util.ArrayList;
 
 public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPackage
 {
 
-	public static final String PACKAGE_NAME = ModSwipeBack.class.getPackage().getName();
+	public static final String PACKAGE_NAME = "us.shandian.mod.swipeback";
 	public static final String PREFS = "SwipeBackSettings";
 	public static final String BLACKLIST = "SwipeBackBlacklist";
 	

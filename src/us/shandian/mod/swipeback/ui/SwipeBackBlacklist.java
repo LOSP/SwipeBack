@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import us.shandian.mod.swipeback.R;
-import us.shandian.mod.swipeback.ModSwipeBack;
+import us.shandian.mod.swipeback.hook.ModSwipeBack;
 import us.shandian.mod.swipeback.adapter.ApplicationAdapter;
 
 public class SwipeBackBlacklist extends ListActivity

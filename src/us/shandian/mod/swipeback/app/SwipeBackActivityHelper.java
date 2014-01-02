@@ -13,8 +13,8 @@ import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XposedBridge;
 
-import us.shandian.mod.swipeback.SwipeBackLayout;
-import us.shandian.mod.swipeback.ModSwipeBack;
+import us.shandian.mod.swipeback.widget.SwipeBackLayout;
+import us.shandian.mod.swipeback.hook.ModSwipeBack;
 
 /**
  * @author Yrom

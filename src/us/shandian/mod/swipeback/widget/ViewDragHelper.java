@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package us.shandian.mod.swipeback;
+package us.shandian.mod.swipeback.widget;
 
 import android.content.Context;
 import android.view.MotionEvent;

@@ -23,7 +23,7 @@ import com.espian.showcaseview.targets.ActionViewTarget;
 import com.espian.showcaseview.targets.Target;
 
 import us.shandian.mod.swipeback.R;
-import us.shandian.mod.swipeback.ModSwipeBack;
+import us.shandian.mod.swipeback.hook.ModSwipeBack;
 
 public class SwipeBackSettings extends PreferenceActivity implements OnPreferenceChangeListener, OnPreferenceClickListener
 {
