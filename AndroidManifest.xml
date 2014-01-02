@@ -32,6 +32,16 @@
 				<category android:name="android.intent.category.DEFAULT"/>
 			</intent-filter>
 		</activity>
+		
+		<activity
+			android:label="@string/swipe_about_title"
+			android:name=".ui.SwipeBackAbout">
+			<intent-filter>
+				<action android:name="us.shandian.mod.swipeback.intent.ABOUT"/>
+
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
 		<meta-data android:value="true" android:name="xposedmodule"/>
         <meta-data android:value="42+" android:name="xposedminversion"/>
         <meta-data android:value="@string/app_des" android:name="xposeddescription"/>

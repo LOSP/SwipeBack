@@ -30,4 +30,13 @@
 	<string name="swipe_blacklist">Blacklist</string>
 	<string name="swipe_blacklist_des">Disable on apps that seem not working with swipe back gesture</string>
 
+	<!-- About -->
+	<string name="swipe_about_title">About</string>
+	<string name="swipe_version_title">SwipeBack Version</string>
+	<string name="swipe_developers_title">Developers</string>
+	<string name="swipe_developers_summary">\@PeterCxy \n\@Issacw0ng</string>
+	<string name="swipe_community_title">Community</string>
+	<string name="swipe_community_summary">Access our community url</string>
+	<string name="swipe_community_url">http://forum.xda-developers.com/showthread.php?t=2592116</string>
+	
 </resources>

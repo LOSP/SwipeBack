@@ -25,4 +25,11 @@
 				android:targetClass="us.shandian.mod.swipeback.ui.SwipeBackBlacklist"/>
 	</Preference>
 	
+	<Preference
+		android:title="@string/swipe_about_title">
+		<intent android:action="us.shandian.mod.swipeback.intent.ABOUT"
+			android:targetPackage="us.shandian.mod.swipeback"
+			android:targetClass="us.shandian.mod.swipeback.ui.SwipeBackAbout"/>
+	</Preference>
+	
 </PreferenceScreen>

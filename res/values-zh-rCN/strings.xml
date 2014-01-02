@@ -30,5 +30,12 @@
 	<string name="swipe_blacklist">黑名单</string>
 	<string name="swipe_blacklist_des">在与滑动返回不兼容的App上禁用滑动返回</string>
 	
-
+	<!-- About -->
+	<string name="swipe_about_title">关于</string>
+	<string name="swipe_version_title">滑动返回 版本号</string>
+	<string name="swipe_developers_title">开发者</string>
+	<string name="swipe_developers_summary">\@喝雪碧的虾 \n\@碎星iKe</string>
+	<string name="swipe_community_title">社区</string>
+	<string name="swipe_community_summary">访问我们的讨论链接</string>
+	
 </resources>
