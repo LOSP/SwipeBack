@@ -40,6 +40,7 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 	
 	public static final String SWIPEBACK_ENABLE = "swipeback_enable";
 	public static final String SWIPEBACK_EDGE = "swipeback_edge";
+	public static final String SWIPEBACK_EDGE_SIZE = "swipeback_edge_size";
 	
 	public static final int SWIPEBACK_EDGE_LEFT = 1;
 	public static final int SWIPEBACK_EDGE_RIGHT = 2;
@@ -100,6 +101,10 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 								trackEdge |= SwipeBackLayout.EDGE_BOTTOM;
 							}
 							helper.getSwipeBackLayout().setEdgeTrackingEnabled(trackEdge);
+							
+							// Set the size
+							int size = prefs.getInt(SWIPEBACK_EDGE_SIZE, 50);
+							helper.getSwipeBackLayout().setEdgeSize(size);
 							
 							XposedHelpers.setAdditionalInstanceField(activity, "mSwipeHelper", helper);
 						}

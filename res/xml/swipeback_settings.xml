@@ -16,6 +16,13 @@
 		android:defaultValue="@array/swipe_edges_values"
 		android:dependency="swipeback_enable"/>
 	
+	<EditTextPreference
+		android:key="swipeback_edge_size"
+		android:title="@string/swipe_edge_size"
+		android:summary="50 dip"
+		android:defaultValue="50"
+		android:dependency="swipeback_enable"/>
+	
 	<Preference
 		android:title="@string/swipe_blacklist"
 		android:summary="@string/swipe_blacklist_des"

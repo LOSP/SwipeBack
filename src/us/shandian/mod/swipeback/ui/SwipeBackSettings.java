@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.CheckBoxPreference;
 import android.preference.MultiSelectListPreference;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -33,6 +34,7 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 	
 	private CheckBoxPreference mSwipeEnable;
 	private MultiSelectListPreference mSwipeEdge;
+	private EditTextPreference mSwipeEdgeSize;
 	
 	private ConfigOptions mConfig;
 	
@@ -66,6 +68,12 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 		mSwipeEdge.setValues(edges);
 		mSwipeEdge.setSummary(summary.toString());
 		mSwipeEdge.setOnPreferenceChangeListener(this);
+		
+		mSwipeEdgeSize = (EditTextPreference) findPreference(ModSwipeBack.SWIPEBACK_EDGE_SIZE);
+		int size = prefs.getInt(ModSwipeBack.SWIPEBACK_EDGE_SIZE, 50);
+		mSwipeEdgeSize.setDefaultValue(String.valueOf(size));
+		mSwipeEdgeSize.setSummary(size + " dip");
+		mSwipeEdgeSize.setOnPreferenceChangeListener(this);
 		
 		// First-run tutorial
 		if (!prefs.getBoolean(FIRST_RUN, true)) return;
@@ -171,6 +179,13 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 			}
 			prefs.edit().putInt(ModSwipeBack.SWIPEBACK_EDGE, edge).commit();
 			mSwipeEdge.setSummary(summary.toString());
+		} else if (preference == mSwipeEdgeSize) {
+			int size = Integer.parseInt((String) newValue);;
+			if (size <= 0) {
+				size = 50;
+			}
+			prefs.edit().putInt(ModSwipeBack.SWIPEBACK_EDGE_SIZE, size).commit();
+			mSwipeEdgeSize.setSummary(size + " dip");
 		}
 		return true;
 	}
