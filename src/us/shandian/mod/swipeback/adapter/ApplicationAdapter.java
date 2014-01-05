@@ -2,6 +2,10 @@ package us.shandian.mod.swipeback.adapter;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Collections;
+import java.util.Locale;
+import java.text.Collator;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -27,6 +31,20 @@ public class ApplicationAdapter extends ArrayAdapter<ApplicationInfo>
 		this.mContext = context;
 		this.mAppsList = appsList;
 		mPackageManager = mContext.getPackageManager();
+		
+		// Sort in alphabetical
+		Collections.sort(appsList, new Comparator<ApplicationInfo>() {
+
+				@Override
+				public int compare(ApplicationInfo p1, ApplicationInfo p2)
+				{
+					String name1 = p1.loadLabel(mPackageManager).toString();
+					String name2 = p2.loadLabel(mPackageManager).toString();
+					return Collator.getInstance().compare(name1, name2);
+				}
+
+			
+		});
 		
 		for (int i = 0; i < mAppsList.size(); i++) {
 			LayoutInflater layoutInflater = (LayoutInflater) mContext
