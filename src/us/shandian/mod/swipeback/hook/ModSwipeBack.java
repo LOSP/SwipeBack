@@ -69,7 +69,9 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 						Activity activity = (Activity) param.thisObject;
 						banLaunchers(activity);
 						
-						if (isAppBanned(activity.getApplication().getApplicationInfo().packageName)) {
+						if (isAppBanned(activity.getApplication().getApplicationInfo().packageName) || 
+						    // Ignore InCall* activities
+						    activity.getComponentName().getClassName().contains("InCall")) {
 							return;
 						}
 						
