@@ -12,6 +12,7 @@ import android.view.ViewGroup.LayoutParams;
 import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
 
 import us.shandian.mod.swipeback.widget.SwipeBackLayout;
 import us.shandian.mod.swipeback.hook.ModSwipeBack;
@@ -94,10 +95,12 @@ public class SwipeBackActivityHelper {
      */
     public void convertActivityFromTranslucent() {
         try {
-            Method method = Activity.class.getDeclaredMethod("convertFromTranslucent", null);
+            /*Method method = Activity.class.getDeclaredMethod("convertFromTranslucent", null);
             method.setAccessible(true);
-            method.invoke(mActivity, null);
+            method.invoke(mActivity, null);*/
+			XposedHelpers.callMethod(mActivity, "convertFromTranslucent");
         } catch (Throwable t) {
+			XposedBridge.log(t);
         }
     }
 
@@ -115,7 +118,7 @@ public class SwipeBackActivityHelper {
      */
     public void convertActivityToTranslucent() {
         try {
-            Class<?>[] classes = Activity.class.getDeclaredClasses();
+            /*Class<?>[] classes = Activity.class.getDeclaredClasses();
             Class<?> translucentConversionListenerClazz = null;
             for (Class clazz : classes) {
                 if (clazz.getSimpleName().contains("TranslucentConversionListener")) {
@@ -127,8 +130,11 @@ public class SwipeBackActivityHelper {
             method.setAccessible(true);
             method.invoke(mActivity, new Object[] {
                 null
-            });
+            });*/
+			// Class<?> translucentConversionListenerClazz = XposedHelpers.findClass("android.app.Activity.TranslucentConversionListener", null);
+			XposedHelpers.callMethod(mActivity, "convertToTranslucent", null);
         } catch (Throwable t) {
+			XposedBridge.log(t);
         }
     }
 }
