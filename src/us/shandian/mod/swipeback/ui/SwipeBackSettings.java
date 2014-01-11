@@ -2,7 +2,7 @@ package us.shandian.mod.swipeback.ui;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.preference.CheckBoxPreference;
+import android.preference.SwitchPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -10,6 +10,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.content.SharedPreferences;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import java.util.Set;
@@ -25,6 +26,7 @@ import com.espian.showcaseview.targets.Target;
 
 import us.shandian.mod.swipeback.R;
 import us.shandian.mod.swipeback.hook.ModSwipeBack;
+import us.shandian.mod.swipeback.ui.SwipeBackBlacklist;
 
 public class SwipeBackSettings extends PreferenceActivity implements OnPreferenceChangeListener, OnPreferenceClickListener
 {
@@ -32,9 +34,10 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 	
 	private SharedPreferences prefs;
 	
-	private CheckBoxPreference mSwipeEnable;
+	private SwitchPreference mSwipeEnable;
 	private MultiSelectListPreference mSwipeEdge;
 	private EditTextPreference mSwipeEdgeSize;
+	private SwitchPreference mSwipeBlacklist;
 	
 	private ConfigOptions mConfig;
 	
@@ -45,9 +48,10 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 		
 		prefs = getSharedPreferences(ModSwipeBack.PREFS, Context.MODE_WORLD_READABLE);
 		
-		mSwipeEnable = (CheckBoxPreference) findPreference(ModSwipeBack.SWIPEBACK_ENABLE);
+		mSwipeEnable = (SwitchPreference) findPreference(ModSwipeBack.SWIPEBACK_ENABLE);
 		mSwipeEnable.setChecked(prefs.getBoolean(ModSwipeBack.SWIPEBACK_ENABLE, true));
 		mSwipeEnable.setOnPreferenceClickListener(this);
+		mSwipeEnable.setOnPreferenceChangeListener(this);
 		
 		mSwipeEdge = (MultiSelectListPreference) findPreference(ModSwipeBack.SWIPEBACK_EDGE);
 		int edge = prefs.getInt(ModSwipeBack.SWIPEBACK_EDGE, 0 | ModSwipeBack.SWIPEBACK_EDGE_LEFT);
@@ -74,6 +78,11 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 		mSwipeEdgeSize.setDefaultValue(String.valueOf(size));
 		mSwipeEdgeSize.setSummary(size + " dip");
 		mSwipeEdgeSize.setOnPreferenceChangeListener(this);
+		
+		mSwipeBlacklist = (SwitchPreference) findPreference(ModSwipeBack.SWIPEBACK_BLACKLIST);
+		mSwipeBlacklist.setChecked(prefs.getBoolean(ModSwipeBack.SWIPEBACK_BLACKLIST, false));
+		mSwipeBlacklist.setOnPreferenceClickListener(this);
+		mSwipeBlacklist.setOnPreferenceChangeListener(this);
 		
 		// First-run tutorial
 		if (!prefs.getBoolean(FIRST_RUN, true)) return;
@@ -186,6 +195,10 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 			}
 			prefs.edit().putInt(ModSwipeBack.SWIPEBACK_EDGE_SIZE, size).commit();
 			mSwipeEdgeSize.setSummary(size + " dip");
+		} else if (preference == mSwipeEnable) {
+			prefs.edit().putBoolean(ModSwipeBack.SWIPEBACK_ENABLE, (Boolean) newValue).commit();
+		} else if (preference == mSwipeBlacklist) {
+			prefs.edit().putBoolean(ModSwipeBack.SWIPEBACK_BLACKLIST, (Boolean) newValue).commit();
 		}
 		return true;
 	}
@@ -195,6 +208,10 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 	{
 		if (preference == mSwipeEnable) {
 			prefs.edit().putBoolean(ModSwipeBack.SWIPEBACK_ENABLE, mSwipeEnable.isChecked()).commit();
+		} else if(preference == mSwipeBlacklist) {
+			Intent i = new Intent();
+			i.setClass(this, SwipeBackBlacklist.class);
+			startActivity(i);
 		}
 		return true;
 	}

@@ -20,7 +20,7 @@
 	<string name="please_wait">请稍候...</string>
 
 	<!-- Swipe settings -->
-	<string name="swipe_enable">启用滑动返回手势</string>
+	<string name="swipe_enable">滑动返回手势</string>
 	<string name="swipe_edge">滑动监听边缘</string>
 	<string name="swipe_edge_left">左边</string>
 	<string name="swipe_edge_right">右边</string>
@@ -28,8 +28,13 @@
 	<string name="swipe_edge_size">边缘大小</string>
 	
 	<!-- Swipe blacklist -->
-	<string name="swipe_blacklist">黑名单</string>
-	<string name="swipe_blacklist_des">在与滑动返回不兼容的App上禁用滑动返回</string>
+	<string name="swipe_blacklist">黑/白名单</string>
+	<string name="swipe_blacklist_des">在选择的app上禁用</string>
+	<string name="swipe_list_switch_black">黑</string>
+
+	<!-- Swipe whitelist -->
+	<string name="swipe_whitelist_des">只在选择的app上启用</string>
+	<string name="swipe_list_switch_white">白</string>
 	
 	<!-- About -->
 	<string name="swipe_about_title">关于</string>

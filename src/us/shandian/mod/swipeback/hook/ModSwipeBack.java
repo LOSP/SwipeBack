@@ -41,6 +41,7 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 	public static final String SWIPEBACK_ENABLE = "swipeback_enable";
 	public static final String SWIPEBACK_EDGE = "swipeback_edge";
 	public static final String SWIPEBACK_EDGE_SIZE = "swipeback_edge_size";
+	public static final String SWIPEBACK_BLACKLIST = "swipeback_blacklist";
 	
 	public static final int SWIPEBACK_EDGE_LEFT = 1;
 	public static final int SWIPEBACK_EDGE_RIGHT = 2;
@@ -234,7 +235,8 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 	
 	private boolean isAppBanned(String packageName) {
 		blacklist.reload();
-		if (blacklist.getBoolean(packageName, false)) {
+		prefs.reload();
+		if (!prefs.getBoolean(SWIPEBACK_BLACKLIST, false) == blacklist.getBoolean(packageName, false)) {
 			return true;
 		}
 		

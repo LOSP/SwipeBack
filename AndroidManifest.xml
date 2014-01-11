@@ -27,8 +27,6 @@
 			android:label="@string/swipe_blacklist"
 			android:name=".ui.SwipeBackBlacklist">
 			<intent-filter>
-				<action android:name="us.shandian.mod.swipeback.intent.BLACKLIST"/>
-				
 				<category android:name="android.intent.category.DEFAULT"/>
 			</intent-filter>
 		</activity>
