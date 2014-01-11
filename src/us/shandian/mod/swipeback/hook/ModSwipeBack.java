@@ -80,15 +80,6 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 							return;
 						}
 						
-						// Request for rotation
-						boolean isRotationLocked = (Settings.System.getInt(activity.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, 0) == 0);
-						if (!isRotationLocked) {
-							activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-						}
-						ContentObserver mObserver = new RotateObserver(activity, new RotateHandler(activity));
-						activity.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.ACCELEROMETER_ROTATION), false, mObserver);
-						XposedHelpers.setAdditionalInstanceField(activity, "mObserver", mObserver);
-						
 						// Do this only when enabled
 						prefs.reload();
 						if (prefs.getBoolean(SWIPEBACK_ENABLE, true)) {
@@ -114,6 +105,16 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 							helper.getSwipeBackLayout().setEdgeSize(size);
 							
 							XposedHelpers.setAdditionalInstanceField(activity, "mSwipeHelper", helper);
+							
+							// Request for rotation
+							boolean isRotationLocked = (Settings.System.getInt(activity.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, 0) == 0);
+							if (!isRotationLocked) {
+								activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+							}
+							ContentObserver mObserver = new RotateObserver(activity, new RotateHandler(activity));
+							activity.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.ACCELEROMETER_ROTATION), false, mObserver);
+							XposedHelpers.setAdditionalInstanceField(activity, "mObserver", mObserver);
+							
 						}
 					}
 			});
