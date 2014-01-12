@@ -23,6 +23,7 @@ import us.shandian.mod.swipeback.hook.ModSwipeBack;
 public class SwipeBackActivityHelper {
     private Activity mActivity;
 	private Context mGbContext;
+	private boolean mIsTranslucent;
 
     private SwipeBackLayout mSwipeBackLayout;
 
@@ -46,14 +47,16 @@ public class SwipeBackActivityHelper {
         mSwipeBackLayout.addSwipeListener(new SwipeBackLayout.SwipeListener() {
             @Override
             public void onScrollStateChange(int state, float scrollPercent) {
-                if (state == SwipeBackLayout.STATE_IDLE && scrollPercent == 0) {
+                if (!mIsTranslucent && state == SwipeBackLayout.STATE_IDLE && scrollPercent == 0) {
                     convertActivityFromTranslucent();
                 }
             }
 
             @Override
             public void onEdgeTouch(int edgeFlag) {
-                convertActivityToTranslucent();
+				if (!mIsTranslucent) {
+					convertActivityToTranslucent();
+				}
             }
 
             @Override
@@ -65,7 +68,10 @@ public class SwipeBackActivityHelper {
 
     public void onPostCreate() {
         mSwipeBackLayout.attachToActivity(mActivity);
-        convertActivityFromTranslucent();
+		mIsTranslucent = isTranslucent();
+		if (!mIsTranslucent) {
+			convertActivityFromTranslucent();
+		}
         mActivity.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 		mActivity.getWindow().getDecorView().setBackgroundDrawable(null);
     }
@@ -80,6 +86,14 @@ public class SwipeBackActivityHelper {
     public SwipeBackLayout getSwipeBackLayout() {
         return mSwipeBackLayout;
     }
+	
+	public boolean isTranslucent() {
+		try {
+			return ((ColorDrawable) mActivity.getWindow().getDecorView().getBackground()).getColor() == mActivity.getResources().getColor(android.R.color.transparent);
+		} catch (Throwable t) {
+			return false;
+		}
+	}
 
     /**
      * Convert a translucent themed Activity
@@ -95,9 +109,10 @@ public class SwipeBackActivityHelper {
      */
     public void convertActivityFromTranslucent() {
         try {
-            Method method = Activity.class.getDeclaredMethod("convertFromTranslucent", null);
+            /*Method method = Activity.class.getDeclaredMethod("convertFromTranslucent", null);
             method.setAccessible(true);
-            method.invoke(mActivity, null);
+            method.invoke(mActivity, null);*/
+			XposedHelpers.callMethod(mActivity, "convertFromTranslucent");
         } catch (Throwable t) {
 			XposedBridge.log(t);
         }
@@ -117,7 +132,7 @@ public class SwipeBackActivityHelper {
      */
     public void convertActivityToTranslucent() {
         try {
-            Class<?>[] classes = Activity.class.getDeclaredClasses();
+            /*Class<?>[] classes = Activity.class.getDeclaredClasses();
             Class<?> translucentConversionListenerClazz = null;
             for (Class clazz : classes) {
                 if (clazz.getSimpleName().contains("TranslucentConversionListener")) {
@@ -129,7 +144,8 @@ public class SwipeBackActivityHelper {
             method.setAccessible(true);
             method.invoke(mActivity, new Object[] {
                 null
-            });
+            });*/
+			XposedHelpers.callMethod(mActivity, "convertToTranslucent", null);
         } catch (Throwable t) {
 			XposedBridge.log(t);
         }
