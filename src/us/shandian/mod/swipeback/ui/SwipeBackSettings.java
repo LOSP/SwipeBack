@@ -35,6 +35,7 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 	private SharedPreferences prefs;
 	
 	private SwitchPreference mSwipeEnable;
+	private SwitchPreference mRecycleSurface;
 	private MultiSelectListPreference mSwipeEdge;
 	private EditTextPreference mSwipeEdgeSize;
 	private SwitchPreference mSwipeBlacklist;
@@ -52,6 +53,11 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 		mSwipeEnable.setChecked(prefs.getBoolean(ModSwipeBack.SWIPEBACK_ENABLE, true));
 		mSwipeEnable.setOnPreferenceClickListener(this);
 		mSwipeEnable.setOnPreferenceChangeListener(this);
+		
+		mRecycleSurface = (SwitchPreference) findPreference(ModSwipeBack.SWIPEBACK_RECYCLE_SURFACE);
+		mRecycleSurface.setChecked(prefs.getBoolean(ModSwipeBack.SWIPEBACK_RECYCLE_SURFACE, true));
+		mRecycleSurface.setOnPreferenceClickListener(this);
+		mRecycleSurface.setOnPreferenceChangeListener(this);
 		
 		mSwipeEdge = (MultiSelectListPreference) findPreference(ModSwipeBack.SWIPEBACK_EDGE);
 		int edge = prefs.getInt(ModSwipeBack.SWIPEBACK_EDGE, 0 | ModSwipeBack.SWIPEBACK_EDGE_LEFT);
@@ -199,6 +205,8 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 			prefs.edit().putBoolean(ModSwipeBack.SWIPEBACK_ENABLE, (Boolean) newValue).commit();
 		} else if (preference == mSwipeBlacklist) {
 			prefs.edit().putBoolean(ModSwipeBack.SWIPEBACK_BLACKLIST, (Boolean) newValue).commit();
+		} else if (preference == mRecycleSurface) {
+			prefs.edit().putBoolean(ModSwipeBack.SWIPEBACK_RECYCLE_SURFACE, (Boolean) newValue).commit();
 		}
 		return true;
 	}
@@ -212,6 +220,8 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 			Intent i = new Intent();
 			i.setClass(this, SwipeBackBlacklist.class);
 			startActivity(i);
+		} else if (preference == mRecycleSurface) {
+			prefs.edit().putBoolean(ModSwipeBack.SWIPEBACK_RECYCLE_SURFACE, mRecycleSurface.isChecked()).commit();
 		}
 		return true;
 	}
