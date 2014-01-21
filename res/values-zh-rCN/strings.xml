@@ -27,6 +27,10 @@
 	<string name="swipe_edge_bottom">底边</string>
 	<string name="swipe_edge_size">边缘大小</string>
 	
+	<!-- Surface recycling system -->
+	<string name="swipe_recycle_surface">回收Surface</string>
+	<string name="swipe_recycle_surface_des">禁用本选项可能修复部分FC现象. \n仅供高级用户. \n重启生效</string>
+	
 	<!-- Swipe blacklist -->
 	<string name="swipe_blacklist">黑/白名单</string>
 	<string name="swipe_blacklist_des">在选择的app上禁用</string>

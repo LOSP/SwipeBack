@@ -7,6 +7,12 @@
 		android:title="@string/swipe_enable"
 		android:defaultValue="true"/>
 	
+	<SwitchPreference
+		android:key="swipeback_recycle_surface"
+		android:title="@string/swipe_recycle_surface"
+		android:summary="@string/swipe_recycle_surface_des"
+		android:defaultValue="true"/>
+	
 	<MultiSelectListPreference
 		android:key="swipeback_edge"
 		android:title="@string/swipe_edge"

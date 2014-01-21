@@ -42,6 +42,7 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 	public static final String SWIPEBACK_EDGE = "swipeback_edge";
 	public static final String SWIPEBACK_EDGE_SIZE = "swipeback_edge_size";
 	public static final String SWIPEBACK_BLACKLIST = "swipeback_blacklist";
+	public static final String SWIPEBACK_RECYCLE_SURFACE = "swipeback_recycle_surface";
 	
 	public static final int SWIPEBACK_EDGE_LEFT = 1;
 	public static final int SWIPEBACK_EDGE_RIGHT = 2;
@@ -63,6 +64,9 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 			
 			blacklist = new XSharedPreferences(PACKAGE_NAME, BLACKLIST);
 			blacklist.makeWorldReadable();
+			
+			// Surface recycling system
+			SwipeBackActivityHelper.recycle = prefs.getBoolean(SWIPEBACK_RECYCLE_SURFACE, true);
 			
 			XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
 					@Override

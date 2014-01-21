@@ -21,6 +21,8 @@ import us.shandian.mod.swipeback.hook.ModSwipeBack;
  * @author Yrom
  */
 public class SwipeBackActivityHelper {
+	public static boolean recycle = true;
+	
     private Activity mActivity;
 	private Context mGbContext;
 	private boolean mIsTranslucent;
@@ -47,14 +49,14 @@ public class SwipeBackActivityHelper {
         mSwipeBackLayout.addSwipeListener(new SwipeBackLayout.SwipeListener() {
             @Override
             public void onScrollStateChange(int state, float scrollPercent) {
-                if (!mIsTranslucent && state == SwipeBackLayout.STATE_IDLE && scrollPercent == 0) {
+                if (recycle && !mIsTranslucent && state == SwipeBackLayout.STATE_IDLE && scrollPercent == 0) {
                     convertActivityFromTranslucent();
                 }
             }
 
             @Override
             public void onEdgeTouch(int edgeFlag) {
-				if (!mIsTranslucent) {
+				if (recycle && !mIsTranslucent) {
 					convertActivityToTranslucent();
 				}
             }
@@ -69,7 +71,7 @@ public class SwipeBackActivityHelper {
     public void onPostCreate() {
         mSwipeBackLayout.attachToActivity(mActivity);
 		mIsTranslucent = isTranslucent();
-		if (!mIsTranslucent) {
+		if (recycle && !mIsTranslucent) {
 			convertActivityFromTranslucent();
 		}
         mActivity.getWindow().setBackgroundDrawable(new ColorDrawable(0));
@@ -88,6 +90,7 @@ public class SwipeBackActivityHelper {
     }
 	
 	public boolean isTranslucent() {
+		if (!recycle) return false;
 		try {
 			return ((ColorDrawable) mActivity.getWindow().getDecorView().getBackground()).getColor() == mActivity.getResources().getColor(android.R.color.transparent);
 		} catch (Throwable t) {

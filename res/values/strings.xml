@@ -27,6 +27,10 @@
 	<string name="swipe_edge_bottom">Bottom</string>
 	<string name="swipe_edge_size">Edge Size</string>
 	
+	<!-- Surface recycling system -->
+	<string name="swipe_recycle_surface">Recycle surface</string>
+	<string name="swipe_recycle_surface_des">Disabling this may fix some crashes. \nONLY FOR ADVANCED USERS. \n NEEDS REBOOT</string>
+	
 	<!-- Swipe blacklist -->
 	<string name="swipe_blacklist">Black/Whitelist</string>
 	<string name="swipe_blacklist_des">Disable on selected apps</string>
