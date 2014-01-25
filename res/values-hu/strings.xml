@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ok">OKÉ</string>
+    <string name="app_name">SwipeBack</string>
+    <string name="app_des">Lehetővé teszi a globális visszahúzást.</string>
+    <string name="tutorial_next">Következő</string>
+    <string name="tutorial_finish">Kész</string>
+    <string name="tutorial_welcome_title">Üdvözlöm</string>
+    <string name="tutorial_welcome_content">"Üdvözli a SwipeBack.
+A SwipeBack nagymértékben növeli az Android élményt.
+Kattintson a Következő gombra."</string>
+    <string name="tutorial_enable_title">Engedélyez</string>
+    <string name="tutorial_enable_content">"Engedélyezze a SwipeBack modul-t az Xposed keretrendszerben (jelölje be a jelölőnégyzetet).
+Engedélyezés / tiltás szükséges, újra kell inditani minden alklamazást.."</string>
+    <string name="tutorial_edge_title">Oldalak</string>
+    <string name="tutorial_edge_content">"Válassza ki, hogyan szeretné használni.
+Pl.A bal azt jelenti, hogy a bal oldalról indul a húzás, és jobbra fejezi be."</string>
+    <string name="tutorial_over_title">Vége</string>
+    <string name="tutorial_over_content">"Bemutató kész.
+Jó szórakozást!"</string>
+    <string name="please_wait">Kérem várjon...</string>
+    <string name="swipe_enable">Visszahúzás</string>
+    <string name="swipe_edge">Húzás kezdési oldal</string>
+    <string name="swipe_edge_left">Bal</string>
+    <string name="swipe_edge_right">Jobb</string>
+    <string name="swipe_edge_bottom">Alul</string>
+    <string name="swipe_edge_size">Oldal mérete</string>
+    <string name="swipe_blacklist">Fekete/Fehérlista</string>
+    <string name="swipe_blacklist_des">Tiltsa a kiválasztott alkalmazásokat</string>
+    <string name="swipe_list_switch_black">Fekete</string>
+    <string name="swipe_whitelist_des">Csak a kiválasztott alkalmazások engedélyezése</string>
+    <string name="swipe_list_switch_white">Fehér</string>
+    <string name="swipe_about_title">Névjegy</string>
+    <string name="swipe_version_title">SwipeBack Verzió</string>
+    <string name="swipe_developers_title">Fejlesztők</string>
+    <string name="swipe_developers_summary">"\@PeterCxy 
+@Issacw0ng"</string>
+    <string name="swipe_community_title">Közösség</string>
+    <string name="swipe_community_summary">Elérhetőség</string>
+    <string name="swipe_community_url">http://forum.xda-developers.com/showthread.php?t=2592116</string>
+</resources>
