@@ -172,6 +172,17 @@ public class SwipeBackLayout extends FrameLayout {
         mContentView = view;
     }
 
+	/**
+     * Sets the sensitivity of the NavigationLayout.
+     * 
+     * @param context The application context.
+     * @param sensitivity value between 0 and 1, the final value for touchSlop =
+     *            ViewConfiguration.getScaledTouchSlop * (1 / s);
+     */
+    public void setSensitivity(Context context, float sensitivity) {
+        mDragHelper.setSensitivity(context, sensitivity);
+    }
+
     public void setEnableGesture(boolean enable) {
         mEnable = enable;
     }
