@@ -27,6 +27,7 @@ import com.espian.showcaseview.targets.Target;
 import us.shandian.mod.swipeback.R;
 import us.shandian.mod.swipeback.hook.ModSwipeBack;
 import us.shandian.mod.swipeback.ui.SwipeBackBlacklist;
+import us.shandian.mod.swipeback.ui.preference.SeekBarPreference;
 
 public class SwipeBackSettings extends PreferenceActivity implements OnPreferenceChangeListener, OnPreferenceClickListener
 {
@@ -38,6 +39,7 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 	private SwitchPreference mRecycleSurface;
 	private MultiSelectListPreference mSwipeEdge;
 	private EditTextPreference mSwipeEdgeSize;
+	private SeekBarPreference mSwipeSensitivity;
 	private SwitchPreference mSwipeBlacklist;
 	
 	private ConfigOptions mConfig;
@@ -84,6 +86,12 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 		mSwipeEdgeSize.setDefaultValue(String.valueOf(size));
 		mSwipeEdgeSize.setSummary(size + " dip");
 		mSwipeEdgeSize.setOnPreferenceChangeListener(this);
+		
+		mSwipeSensitivity = (SeekBarPreference) findPreference(ModSwipeBack.SWIPEBACK_SENSITIVITY);
+		float sensitivity = prefs.getFloat(ModSwipeBack.SWIPEBACK_SENSITIVITY, 1.0f);
+		mSwipeSensitivity.setValue((int) (sensitivity * 100));
+		
+		mSwipeSensitivity.setOnPreferenceChangeListener(this);
 		
 		mSwipeBlacklist = (SwitchPreference) findPreference(ModSwipeBack.SWIPEBACK_BLACKLIST);
 		mSwipeBlacklist.setChecked(prefs.getBoolean(ModSwipeBack.SWIPEBACK_BLACKLIST, false));
@@ -207,6 +215,8 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 			prefs.edit().putBoolean(ModSwipeBack.SWIPEBACK_BLACKLIST, (Boolean) newValue).commit();
 		} else if (preference == mRecycleSurface) {
 			prefs.edit().putBoolean(ModSwipeBack.SWIPEBACK_RECYCLE_SURFACE, (Boolean) newValue).commit();
+		} else if (preference == mSwipeSensitivity) {
+			prefs.edit().putFloat(ModSwipeBack.SWIPEBACK_SENSITIVITY, (Integer) newValue / 100.0f).commit();
 		}
 		return true;
 	}

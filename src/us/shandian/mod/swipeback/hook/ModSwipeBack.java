@@ -43,6 +43,7 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 	public static final String SWIPEBACK_EDGE_SIZE = "swipeback_edge_size";
 	public static final String SWIPEBACK_BLACKLIST = "swipeback_blacklist";
 	public static final String SWIPEBACK_RECYCLE_SURFACE = "swipeback_recycle_surface";
+	public static final String SWIPEBACK_SENSITIVITY = "swipeback_sensitivity";
 	
 	public static final int SWIPEBACK_EDGE_LEFT = 1;
 	public static final int SWIPEBACK_EDGE_RIGHT = 2;
@@ -108,6 +109,9 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 							// Set the size
 							int size = prefs.getInt(SWIPEBACK_EDGE_SIZE, 50);
 							helper.getSwipeBackLayout().setEdgeSize(size);
+							
+							// Sensitivity
+							helper.setSensitivity(prefs.getFloat(SWIPEBACK_SENSITIVITY, 1.0f));
 							
 							XposedHelpers.setAdditionalInstanceField(activity, "mSwipeHelper", helper);
 							

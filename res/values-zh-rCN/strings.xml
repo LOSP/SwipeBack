@@ -26,6 +26,7 @@
 	<string name="swipe_edge_right">右边</string>
 	<string name="swipe_edge_bottom">底边</string>
 	<string name="swipe_edge_size">边缘大小</string>
+	<string name="swipe_sensitivity">滑动灵敏度</string>
 	
 	<!-- Surface recycling system -->
 	<string name="swipe_recycle_surface">回收Surface</string>

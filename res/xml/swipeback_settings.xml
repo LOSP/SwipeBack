@@ -29,6 +29,12 @@
 		android:defaultValue="50"
 		android:dependency="swipeback_enable"/>
 	
+	<us.shandian.mod.swipeback.ui.preference.SeekBarPreference
+		android:key="swipeback_sensitivity"
+		android:title="@string/swipe_sensitivity"
+		monitorBoxEnabled="true"
+		monitorBoxUnit="%" />
+	
 	<us.shandian.mod.swipeback.ui.preference.BlackWhiteSwitchPreference
 		android:key="swipeback_blacklist"
 		android:title="@string/swipe_blacklist"

@@ -89,6 +89,10 @@ public class SwipeBackActivityHelper {
         return mSwipeBackLayout;
     }
 	
+	public void setSensitivity(float sensitivity) {
+		mSwipeBackLayout.setSensitivity(mActivity, sensitivity);
+	}
+	
 	public boolean isTranslucent() {
 		if (!recycle) return false;
 		try {
