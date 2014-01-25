@@ -11,7 +11,8 @@
 		android:key="swipeback_recycle_surface"
 		android:title="@string/swipe_recycle_surface"
 		android:summary="@string/swipe_recycle_surface_des"
-		android:defaultValue="true"/>
+		android:defaultValue="true"
+		android:dependency="swipeback_enable"/>
 	
 	<MultiSelectListPreference
 		android:key="swipeback_edge"
@@ -33,7 +34,8 @@
 		android:key="swipeback_sensitivity"
 		android:title="@string/swipe_sensitivity"
 		monitorBoxEnabled="true"
-		monitorBoxUnit="%" />
+		monitorBoxUnit="%" 
+		android:dependency="swipeback_enable"/>
 	
 	<us.shandian.mod.swipeback.ui.preference.BlackWhiteSwitchPreference
 		android:key="swipeback_blacklist"
