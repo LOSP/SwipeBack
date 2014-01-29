@@ -38,4 +38,9 @@ Jó szórakozást!"</string>
     <string name="swipe_community_title">Közösség</string>
     <string name="swipe_community_summary">Elérhetőség</string>
     <string name="swipe_community_url">http://forum.xda-developers.com/showthread.php?t=2592116</string>
+	<string name="swipe_sensitivity">Húzás érzékenység</string>
+    <string name="swipe_recycle_surface">Újrahasznositott felület</string>
+    <string name="swipe_recycle_surface_des">"Ha kikapcsolja, néhány javitás összeomolhat. 
+		CSAK HALADÓ FELHASZNÁLÓKNAK. 
+		ÚJRAINDITÁS SZÜKSÉGES"</string>
 </resources>
