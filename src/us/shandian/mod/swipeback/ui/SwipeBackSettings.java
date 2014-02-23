@@ -9,6 +9,8 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.view.MenuItem;
+import android.view.MenuInflater;
+import android.view.Menu;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -43,16 +45,20 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 		
 		addPreferencesFromResource(R.xml.swipeback_settings);
 		
+		loadSettings();
+	}
+
+	private void loadSettings() {
 		mSwipeEnable = (SwitchPreference) findPreference(SettingsProvider.SWIPEBACK_ENABLE);
 		mSwipeEnable.setChecked(SettingsProvider.getBoolean(this, prefix, SettingsProvider.SWIPEBACK_ENABLE, true));
 		mSwipeEnable.setOnPreferenceClickListener(this);
 		mSwipeEnable.setOnPreferenceChangeListener(this);
-		
+
 		mRecycleSurface = (SwitchPreference) findPreference(SettingsProvider.SWIPEBACK_RECYCLE_SURFACE);
 		mRecycleSurface.setChecked(SettingsProvider.getBoolean(this, prefix, SettingsProvider.SWIPEBACK_RECYCLE_SURFACE, true));
 		mRecycleSurface.setOnPreferenceClickListener(this);
 		mRecycleSurface.setOnPreferenceChangeListener(this);
-		
+
 		mSwipeEdge = (MultiSelectListPreference) findPreference(SettingsProvider.SWIPEBACK_EDGE);
 		int edge = SettingsProvider.getInt(this, prefix, SettingsProvider.SWIPEBACK_EDGE, 0 | SettingsProvider.SWIPEBACK_EDGE_LEFT);
 		Set<String> edges = new HashSet<String>();
@@ -72,26 +78,41 @@ public class SwipeBackSettings extends PreferenceActivity implements OnPreferenc
 		mSwipeEdge.setValues(edges);
 		mSwipeEdge.setSummary(summary.toString());
 		mSwipeEdge.setOnPreferenceChangeListener(this);
-		
+
 		mSwipeEdgeSize = (EditTextPreference) findPreference(SettingsProvider.SWIPEBACK_EDGE_SIZE);
 		int size = SettingsProvider.getInt(this, prefix, SettingsProvider.SWIPEBACK_EDGE_SIZE, 50);
 		mSwipeEdgeSize.setDefaultValue(String.valueOf(size));
 		mSwipeEdgeSize.setSummary(size + " dip");
 		mSwipeEdgeSize.setOnPreferenceChangeListener(this);
-		
+
 		mSwipeSensitivity = (SeekBarPreference) findPreference(SettingsProvider.SWIPEBACK_SENSITIVITY);
 		float sensitivity = SettingsProvider.getFloat(this, prefix, SettingsProvider.SWIPEBACK_SENSITIVITY, 1.0f);
 		mSwipeSensitivity.setValue((int) (sensitivity * 100));
-		
+
 		mSwipeSensitivity.setOnPreferenceChangeListener(this);
 	}
-
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.settings, menu);
+		return true;
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				finish();
+				return true;
+			case R.id.reset:
+				SettingsProvider.remove(this, prefix, SettingsProvider.SWIPEBACK_ENABLE);
+				SettingsProvider.remove(this, prefix, SettingsProvider.SWIPEBACK_EDGE);
+				SettingsProvider.remove(this, prefix, SettingsProvider.SWIPEBACK_EDGE_SIZE);
+				SettingsProvider.remove(this, prefix, SettingsProvider.SWIPEBACK_SENSITIVITY);
+				SettingsProvider.remove(this, prefix, SettingsProvider.SWIPEBACK_RECYCLE_SURFACE);
+				loadSettings();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);

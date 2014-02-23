@@ -31,4 +31,7 @@
 	<!-- Global Settings -->
 	<string name="swipe_global">全局设置(可被以下设置覆盖)</string>
 	
+	<!-- Reset -->
+	<string name="swipe_reset">重置</string>
+	
 </resources>

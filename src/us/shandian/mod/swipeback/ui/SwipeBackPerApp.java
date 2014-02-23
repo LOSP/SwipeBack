@@ -54,10 +54,29 @@ public class SwipeBackPerApp extends ListActivity implements OnItemClickListener
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				mAdapter = new ApplicationAdapter(mContext, R.id.save_blacklist, getAppList());
+				mAdapter = new ApplicationAdapter(mContext, 0, getAppList());
 				mHandler.sendEmptyMessage(0);
 			}
 		}).start();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.perapp, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		if (item.getItemId() == R.id.about) {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_DEFAULT);
+			i.setClass(this, SwipeBackAbout.class);
+			startActivity(i);
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	private ArrayList<ApplicationInfo> getAppList() {
