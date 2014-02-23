@@ -1,8 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	
 	<item
-        android:id="@+id/save_blacklist"
-		android:icon="@drawable/ic_action_accept"
+        android:id="@+id/reset"
+		android:title="@string/swipe_reset"
 		android:showAsAction="always"/>
     
 </menu>

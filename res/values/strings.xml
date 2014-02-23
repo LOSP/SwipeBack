@@ -32,4 +32,7 @@
 	<!-- Global Settings -->
 	<string name="swipe_global">Global Settings (Can be overridden by the following)</string>
 	
+	<!-- Reset -->
+	<string name="swipe_reset">Reset</string>
+	
 </resources>
