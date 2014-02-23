@@ -28,46 +28,21 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResou
 
 import us.shandian.mod.swipeback.app.SwipeBackActivityHelper;
 import us.shandian.mod.swipeback.widget.SwipeBackLayout;
+import us.shandian.mod.swipeback.provider.SettingsProvider;
 
 import java.util.ArrayList;
 
 public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPackage
 {
-
-	public static final String PACKAGE_NAME = "us.shandian.mod.swipeback";
-	public static final String PREFS = "SwipeBackSettings";
-	public static final String BLACKLIST = "SwipeBackBlacklist";
-	
-	public static final String SWIPEBACK_ENABLE = "swipeback_enable";
-	public static final String SWIPEBACK_EDGE = "swipeback_edge";
-	public static final String SWIPEBACK_EDGE_SIZE = "swipeback_edge_size";
-	public static final String SWIPEBACK_BLACKLIST = "swipeback_blacklist";
-	public static final String SWIPEBACK_RECYCLE_SURFACE = "swipeback_recycle_surface";
-	public static final String SWIPEBACK_SENSITIVITY = "swipeback_sensitivity";
-	
-	public static final int SWIPEBACK_EDGE_LEFT = 1;
-	public static final int SWIPEBACK_EDGE_RIGHT = 2;
-	public static final int SWIPEBACK_EDGE_BOTTOM = 4;
-	
 	private ArrayList<String> mBannedPackages = new ArrayList<String>();
-	
-	private static XSharedPreferences prefs;
-	private static XSharedPreferences blacklist;
 	
 	@Override
 	public void initZygote(StartupParam param) throws Throwable
 	{
 		try {
+			SettingsProvider.initZygote();
+			
 			loadBannedApps();
-			
-			prefs = new XSharedPreferences(PACKAGE_NAME, PREFS);
-			prefs.makeWorldReadable();
-			
-			blacklist = new XSharedPreferences(PACKAGE_NAME, BLACKLIST);
-			blacklist.makeWorldReadable();
-			
-			// Surface recycling system
-			SwipeBackActivityHelper.recycle = prefs.getBoolean(SWIPEBACK_RECYCLE_SURFACE, true);
 			
 			XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
 					@Override
@@ -75,43 +50,51 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 						Activity activity = (Activity) param.thisObject;
 						banLaunchers(activity);
 						
+						// Prefix
+						String packageName = activity.getApplication().getApplicationInfo().packageName;
+						
 						// Try to ignore dialogs
 						Class<?> styleable = XposedHelpers.findClass("com.android.internal.R.styleable", null);
 						int Window_windowIsFloating = XposedHelpers.getStaticIntField(styleable, "Window_windowIsFloating");
 						boolean windowIsFloating = activity.getWindow().getWindowStyle().getBoolean(Window_windowIsFloating, false);
 						
-						if (windowIsFloating || isAppBanned(activity.getApplication().getApplicationInfo().packageName) || 
+						if (windowIsFloating || isAppBanned(packageName) || 
 						    // Ignore InCall* activities
 						    activity.getComponentName().getClassName().contains("InCall")) {
 							return;
 						}
 						
 						// Do this only when enabled
-						prefs.reload();
-						if (prefs.getBoolean(SWIPEBACK_ENABLE, true)) {
+						SettingsProvider.reload();
+						if (SettingsProvider.getBoolean(packageName, SettingsProvider.SWIPEBACK_ENABLE, true)) {
 							SwipeBackActivityHelper helper = new SwipeBackActivityHelper(activity);
+							
+							// Surface Recycling
+							helper.setSurfaceRecycleEnabled(SettingsProvider.getBoolean(packageName, SettingsProvider.SWIPEBACK_RECYCLE_SURFACE, true));
+							
 							helper.onActivityCreate();
 							helper.getSwipeBackLayout().setEnableGesture(true);
+							
 							// Get the egde
-							int edge = prefs.getInt(SWIPEBACK_EDGE, 0 | SWIPEBACK_EDGE_LEFT);
+							int edge = SettingsProvider.getInt(packageName, SettingsProvider.SWIPEBACK_EDGE, 0 | SettingsProvider.SWIPEBACK_EDGE_LEFT);
 							int trackEdge = 0;
-							if ((edge & SWIPEBACK_EDGE_LEFT) != 0) {
+							if ((edge & SettingsProvider.SWIPEBACK_EDGE_LEFT) != 0) {
 								trackEdge |= SwipeBackLayout.EDGE_LEFT;
 							}
-							if ((edge & SWIPEBACK_EDGE_RIGHT) != 0) {
+							if ((edge & SettingsProvider.SWIPEBACK_EDGE_RIGHT) != 0) {
 								trackEdge |= SwipeBackLayout.EDGE_RIGHT;
 							}
-							if ((edge & SWIPEBACK_EDGE_BOTTOM) != 0) {
+							if ((edge & SettingsProvider.SWIPEBACK_EDGE_BOTTOM) != 0) {
 								trackEdge |= SwipeBackLayout.EDGE_BOTTOM;
 							}
 							helper.getSwipeBackLayout().setEdgeTrackingEnabled(trackEdge);
 							
 							// Set the size
-							int size = prefs.getInt(SWIPEBACK_EDGE_SIZE, 50);
+							int size = SettingsProvider.getInt(packageName, SettingsProvider.SWIPEBACK_EDGE_SIZE, 50);
 							helper.getSwipeBackLayout().setEdgeSize(size);
 							
 							// Sensitivity
-							helper.setSensitivity(prefs.getFloat(SWIPEBACK_SENSITIVITY, 1.0f));
+							helper.setSensitivity(SettingsProvider.getFloat(packageName, SettingsProvider.SWIPEBACK_SENSITIVITY, 1.0f));
 							
 							XposedHelpers.setAdditionalInstanceField(activity, "mSwipeHelper", helper);
 							
@@ -174,11 +157,12 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 			XposedBridge.hookAllConstructors(activityRecord, new XC_MethodHook() {
 					@Override
 					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-						// If not enabled, ignore
-						prefs.reload();
-						if (!prefs.getBoolean(SWIPEBACK_ENABLE, true)) return;
-						
 						String packageName = (String) XposedHelpers.getObjectField(param.thisObject, "packageName");
+						
+						// If not enabled, ignore
+						SettingsProvider.reload();
+						if (!SettingsProvider.getBoolean(packageName, SettingsProvider.SWIPEBACK_ENABLE, true)) return;
+						
 						boolean isHomeActivity = false;
 						
 						// Try to ignore home activities
@@ -242,12 +226,6 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 	}
 	
 	private boolean isAppBanned(String packageName) {
-		blacklist.reload();
-		prefs.reload();
-		if (!prefs.getBoolean(SWIPEBACK_BLACKLIST, false) == blacklist.getBoolean(packageName, false)) {
-			return true;
-		}
-		
 		for (String name : mBannedPackages) {
 			if (name.equals(packageName)) {
 				return true;

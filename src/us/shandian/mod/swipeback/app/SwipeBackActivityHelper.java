@@ -15,13 +15,13 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 import us.shandian.mod.swipeback.widget.SwipeBackLayout;
-import us.shandian.mod.swipeback.hook.ModSwipeBack;
+import us.shandian.mod.swipeback.provider.SettingsProvider;
 
 /**
  * @author Yrom
  */
 public class SwipeBackActivityHelper {
-	public static boolean recycle = true;
+	private boolean recycle = true;
 	
     private Activity mActivity;
 	private Context mGbContext;
@@ -32,7 +32,7 @@ public class SwipeBackActivityHelper {
     public SwipeBackActivityHelper(Activity activity) {
         mActivity = activity;
 		try {
-			mGbContext = mActivity.createPackageContext(ModSwipeBack.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
+			mGbContext = mActivity.createPackageContext(SettingsProvider.PACKAGE_NAME, Context.CONTEXT_IGNORE_SECURITY);
 		} catch (Throwable t) {
 			XposedBridge.log(t);
 		}
@@ -100,6 +100,10 @@ public class SwipeBackActivityHelper {
 		} catch (Throwable t) {
 			return false;
 		}
+	}
+	
+	public void setSurfaceRecycleEnabled(boolean enabled) {
+		recycle = enabled;
 	}
 
     /**

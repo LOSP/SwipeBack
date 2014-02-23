@@ -2,19 +2,7 @@
 <resources>
 
     <string name="app_name">滑动返回</string>
-	<string name="app_des">开启全局滑动返回支持</string>
-	
-	<!-- First-run tutorial -->
-	<string name="tutorial_next">继续</string>
-	<string name="tutorial_finish">完成</string>
-	<string name="tutorial_welcome_title">欢迎</string>
-	<string name="tutorial_welcome_content">欢迎使用滑动返回. \n滑动返回将带给您全新的Android体验. \n按 "继续" 进入向导.</string>
-	<string name="tutorial_enable_title">启用</string>
-	<string name="tutorial_enable_content">在Xposed框架中激活后，勾选这里的“启用”，滑动返回才会工作. \n开启和关闭滑动返回需要重启正在运行的程序才能生效.</string>
-	<string name="tutorial_edge_title">边缘</string>
-	<string name="tutorial_edge_content">你可以自定义滑动边缘. \n例如. "左边" 代表您可以从一个Activity的左边划到右边来结束它. </string>
-	<string name="tutorial_over_title">结束</string>
-	<string name="tutorial_over_content">向导结束. \n好好享受吧!</string>
+	<string name="app_des">开启滑动返回支持</string>
 	
 	<!-- Messages -->
 	<string name="please_wait">请稍候...</string>
@@ -32,15 +20,6 @@
 	<string name="swipe_recycle_surface">回收Surface</string>
 	<string name="swipe_recycle_surface_des">禁用本选项可能修复部分FC现象. \n仅供高级用户. \n重启生效</string>
 	
-	<!-- Swipe blacklist -->
-	<string name="swipe_blacklist">黑/白名单</string>
-	<string name="swipe_blacklist_des">在选择的app上禁用</string>
-	<string name="swipe_list_switch_black">黑</string>
-
-	<!-- Swipe whitelist -->
-	<string name="swipe_whitelist_des">只在选择的app上启用</string>
-	<string name="swipe_list_switch_white">白</string>
-	
 	<!-- About -->
 	<string name="swipe_about_title">关于</string>
 	<string name="swipe_version_title">滑动返回 版本号</string>
@@ -48,5 +27,8 @@
 	<string name="swipe_developers_summary">\@喝雪碧的虾 \n\@碎星iKe</string>
 	<string name="swipe_community_title">社区</string>
 	<string name="swipe_community_summary">访问我们的讨论链接</string>
+	
+	<!-- Global Settings -->
+	<string name="swipe_global">全局设置(可被以下设置覆盖)</string>
 	
 </resources>

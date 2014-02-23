@@ -37,22 +37,4 @@
 		monitorBoxUnit="%" 
 		android:dependency="swipeback_enable"/>
 	
-	<us.shandian.mod.swipeback.ui.preference.BlackWhiteSwitchPreference
-		android:key="swipeback_blacklist"
-		android:title="@string/swipe_blacklist"
-		android:summaryOff="@string/swipe_blacklist_des"
-		android:summaryOn="@string/swipe_whitelist_des"
-		android:switchTextOff="@string/swipe_list_switch_black"
-		android:switchTextOn="@string/swipe_list_switch_white"
-		android:defaultValue="false"
-		android:dependency="swipeback_enable">
-	</us.shandian.mod.swipeback.ui.preference.BlackWhiteSwitchPreference>
-	
-	<Preference
-		android:title="@string/swipe_about_title">
-		<intent android:action="us.shandian.mod.swipeback.intent.ABOUT"
-			android:targetPackage="us.shandian.mod.swipeback"
-			android:targetClass="us.shandian.mod.swipeback.ui.SwipeBackAbout"/>
-	</Preference>
-	
 </PreferenceScreen>
