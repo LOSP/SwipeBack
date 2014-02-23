@@ -3,7 +3,7 @@ package us.shandian.mod.swipeback.ui;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
@@ -12,15 +12,19 @@ import android.os.Handler;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.List;
 import java.util.ArrayList;
 
 import us.shandian.mod.swipeback.R;
-import us.shandian.mod.swipeback.hook.ModSwipeBack;
+import us.shandian.mod.swipeback.provider.SettingsProvider;
 import us.shandian.mod.swipeback.adapter.ApplicationAdapter;
 
-public class SwipeBackBlacklist extends ListActivity
+public class SwipeBackPerApp extends ListActivity implements OnItemClickListener
 {
 	private Context mContext;
 	private ApplicationAdapter mAdapter;
@@ -37,17 +41,12 @@ public class SwipeBackBlacklist extends ListActivity
 		}
 	};
 	
-	private SharedPreferences blacklist;
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		// Enable the "back" option
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		
-		// Init the blacklist
-		blacklist = getSharedPreferences(ModSwipeBack.BLACKLIST, Context.MODE_WORLD_READABLE);
+		// Listener
+		getListView().setOnItemClickListener(this);
 		
 		// Init the list
 		mContext = this;
@@ -56,32 +55,9 @@ public class SwipeBackBlacklist extends ListActivity
 			@Override
 			public void run() {
 				mAdapter = new ApplicationAdapter(mContext, R.id.save_blacklist, getAppList());
-				readFromBlacklist();
 				mHandler.sendEmptyMessage(0);
 			}
 		}).start();
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.blacklist, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId()) {
-			case R.id.save_blacklist:
-				writeToBlacklist();
-				finish();
-				break;
-			case android.R.id.home:
-				finish();
-				break;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 	
 	private ArrayList<ApplicationInfo> getAppList() {
@@ -100,19 +76,22 @@ public class SwipeBackBlacklist extends ListActivity
 		}
 		return applist;
 	}
-	
-	private void readFromBlacklist() {
-		for (int i = 0; i < mAdapter.getCount(); i++) {
-			boolean isBanned = blacklist.getBoolean(mAdapter.getItem(i).packageName, false);
-			mAdapter.setChecked(i, isBanned);
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+	{
+		Bundle bundle = new Bundle();
+		if (position == 0) {
+			bundle.putString("us.shandian.mod.swipeback.PREFIX", SettingsProvider.PREFIX_GLOBAL);
+		} else {
+			bundle.putString("us.shandian.mod.swipeback.PREFIX", mAdapter.getItem(position).packageName);
 		}
-	}
-	
-	private void writeToBlacklist() {
-		SharedPreferences.Editor edit = blacklist.edit();
-		for (int i = 0; i < mAdapter.getCount(); i++) {
-			edit.putBoolean(mAdapter.getItem(i).packageName, mAdapter.isChecked(i));
-		}
-		edit.commit();
+		bundle.putString("us.shandian.mod.swipeback.TITLE", ((TextView) view.findViewById(R.id.per_app_name)).getText().toString());
+		
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_DEFAULT);
+		intent.setClass(mContext, SwipeBackSettings.class);
+		intent.putExtras(bundle);
+		startActivity(intent);
 	}
 }

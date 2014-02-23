@@ -4,18 +4,6 @@
     <string name="app_name">SwipeBack</string>
 	<string name="app_des">Enables global swipe back gesture.</string>
 	
-	<!-- First-run tutorial -->
-	<string name="tutorial_next">Next</string>
-	<string name="tutorial_finish">Finish</string>
-	<string name="tutorial_welcome_title">Welcome</string>
-	<string name="tutorial_welcome_content">Welcome to SwipeBack. \nSwipeBack will greatly improve your Android experience. \nPress "Next" to continue.</string>
-	<string name="tutorial_enable_title">Enable</string>
-	<string name="tutorial_enable_content">After enabling SwipeBack in Xposed Framework, tick the checkbox, then SwipeBack will work for you. \nEnabing/Disabling this needs restart of each running app.</string>
-	<string name="tutorial_edge_title">Edges</string>
-	<string name="tutorial_edge_content">You can choose swipe edges to use. \ne.g. "Left" means you can swipe from the left of each activity to the right to finish it. </string>
-	<string name="tutorial_over_title">Over</string>
-	<string name="tutorial_over_content">Tutorial finished. \nEnjoy!</string>
-	
 	<!-- Messages -->
 	<string name="please_wait">Plese wait...</string>
 	
@@ -32,15 +20,6 @@
 	<string name="swipe_recycle_surface">Recycle surface</string>
 	<string name="swipe_recycle_surface_des">Disabling this may fix some crashes. \nONLY FOR ADVANCED USERS. \n NEEDS REBOOT</string>
 	
-	<!-- Swipe blacklist -->
-	<string name="swipe_blacklist">Black/Whitelist</string>
-	<string name="swipe_blacklist_des">Disable on selected apps</string>
-	<string name="swipe_list_switch_black">Black</string>
-
-	<!-- Swipe whitelist -->
-	<string name="swipe_whitelist_des">Enable only on selected apps</string>
-	<string name="swipe_list_switch_white">White</string>
-	
 	<!-- About -->
 	<string name="swipe_about_title">About</string>
 	<string name="swipe_version_title">SwipeBack Version</string>
@@ -49,5 +28,8 @@
 	<string name="swipe_community_title">Community</string>
 	<string name="swipe_community_summary">Access our community url</string>
 	<string name="swipe_community_url">http://forum.xda-developers.com/showthread.php?t=2592116</string>
+	
+	<!-- Global Settings -->
+	<string name="swipe_global">Global Settings (Can be overridden by the following)</string>
 	
 </resources>

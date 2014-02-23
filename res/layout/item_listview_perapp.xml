@@ -3,14 +3,14 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:gravity="center"
+	android:gravity="start"
 	android:layout_marginBottom="5dp"
 	android:layout_marginTop="5dp">
 
 	<ImageView
 		android:layout_height="40dp"
 		android:layout_width="40dp"
-		android:id="@+id/blacklist_app_icon"
+		android:id="@+id/per_app_icon"
 		android:layout_marginBottom="5dp"
 		android:layout_marginLeft="5dp"
 		android:layout_marginTop="5dp"/>
@@ -19,25 +19,13 @@
 		android:layout_height="40dp"
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		android:layout_width="wrap_content"
-		android:id="@+id/blacklist_app_name"
-		android:layout_toRightOf="@id/blacklist_app_icon"
+		android:id="@+id/per_app_name"
+		android:layout_toRightOf="@id/per_app_icon"
 		android:layout_gravity="center_vertical"
 		android:gravity="center_vertical"
 		android:layout_marginBottom="5dp"
 		android:layout_marginTop="5dp"
 		android:layout_marginLeft="5dp"/>
-
-	<CheckBox
-		android:layout_height="40dp"
-		android:layout_width="40dp"
-		android:id="@+id/blacklist_checkbox"
-		android:layout_gravity="right|center_vertical"
-		android:layout_alignParentRight="true"
-		android:gravity="center_vertical"
-		android:layout_marginBottom="5dp"
-		android:layout_marginTop="5dp"
-		android:focusable="false"
-		android:focusableInTouchMode="false"/>
 
 </RelativeLayout>
 
