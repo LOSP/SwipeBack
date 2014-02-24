@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">滑動返回</string>
+	<string name="app_des">開啟滑動返回支持</string>
+	
+	<!-- Messages -->
+	<string name="please_wait">請稍後...</string>
+
+	<!-- Swipe settings -->
+	<string name="swipe_enable">滑動返回手勢</string>
+	<string name="swipe_edge">滑動監聽邊緣</string>
+	<string name="swipe_edge_left">左邊</string>
+	<string name="swipe_edge_right">右邊</string>
+	<string name="swipe_edge_bottom">下面</string>
+	<string name="swipe_edge_size">邊緣大小</string>
+	<string name="swipe_sensitivity">滑動靈敏度</string>
+	
+	<!-- Surface recycling system -->
+	<string name="swipe_recycle_surface">回收Surface</string>
+	<string name="swipe_recycle_surface_des">禁用本選項可能修復部分FB現象. \n僅供高級用戶. \n重開機後生效</string>
+	
+	<!-- About -->
+	<string name="swipe_about_title">關於</string>
+	<string name="swipe_version_title">滑動返回 版本號</string>
+	<string name="swipe_developers_title">開發者</string>
+	<string name="swipe_developers_summary">\@喝雪碧的虾 \n\@碎星iKe</string>
+	<string name="swipe_community_title">社區</string>
+	<string name="swipe_community_summary">訪問我們的討論連結</string>
+	
+	<!-- Global Settings -->
+	<string name="swipe_global">全局設置(可被以下設置覆蓋)</string>
+	
+	<!-- Reset -->
+	<string name="swipe_reset">重置</string>
+	
+</resources>
