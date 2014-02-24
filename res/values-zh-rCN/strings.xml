@@ -27,6 +27,9 @@
 	<string name="swipe_developers_summary">\@喝雪碧的虾 \n\@碎星iKe</string>
 	<string name="swipe_community_title">社区</string>
 	<string name="swipe_community_summary">访问我们的讨论链接</string>
+	<string name="swipe_website_title">主页</string>
+	<string name="swipe_website_summary">浏览我们的网站</string>
+	<string name="swipe_website_url">http://shandian.us</string>
 	
 	<!-- Global Settings -->
 	<string name="swipe_global">全局设置(可被以下设置覆盖)</string>

@@ -14,9 +14,11 @@ public class SwipeBackAbout extends PreferenceActivity implements OnPreferenceCl
 {
 	private final String SWIPE_VERSION = "swipe_version";
 	private final String SWIPE_COMMUNITY = "swipe_community";
+	private final String SWIPE_WEBSITE = "swipe_homepage";
 	
 	private Preference mVersion;
 	private Preference mCommunity;
+	private Preference mWebsite;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,9 @@ public class SwipeBackAbout extends PreferenceActivity implements OnPreferenceCl
 		
 		mCommunity = findPreference(SWIPE_COMMUNITY);
 		mCommunity.setOnPreferenceClickListener(this);
+		
+		mWebsite = findPreference(SWIPE_WEBSITE);
+		mWebsite.setOnPreferenceClickListener(this);
 	}
 
 	@Override
@@ -55,6 +60,11 @@ public class SwipeBackAbout extends PreferenceActivity implements OnPreferenceCl
 		if (preference == mCommunity) {
 			// Access the community url
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.swipe_community_url)));
+			startActivity(intent);
+			return true;
+		} else if (preference == mWebsite) {
+			// Access the website
+			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.swipe_website_url)));
 			startActivity(intent);
 			return true;
 		} else {

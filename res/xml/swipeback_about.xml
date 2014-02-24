@@ -17,4 +17,11 @@
 		android:title="@string/swipe_community_title"
 		android:summary="@string/swipe_community_summary">
 	</Preference>
+	
+	<Preference
+		android:key="swipe_homepage"
+		android:title="@string/swipe_website_title"
+		android:summary="@string/swipe_website_summary">
+	</Preference>
+	
 </PreferenceScreen>
