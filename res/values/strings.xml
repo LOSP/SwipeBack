@@ -5,7 +5,7 @@
 	<string name="app_des">Enables global swipe back gesture.</string>
 	
 	<!-- Messages -->
-	<string name="please_wait">Plese wait...</string>
+	<string name="please_wait">Please wait...</string>
 	
 	<!-- Swipe settings -->
 	<string name="swipe_enable">Swipe Back</string>
