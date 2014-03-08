@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SwipeBack</string>
+	<string name="app_des">Aktiviert eine allumfassende Geste zum Zurückwischen.</string>
+
+	<!-- Messages -->
+	<string name="please_wait">Bitte warten...</string>
+
+	<!-- Swipe settings -->
+	<string name="swipe_enable">Swipe Back</string>
+	<string name="swipe_edge">Seite</string>
+	<string name="swipe_edge_left">Links</string>
+	<string name="swipe_edge_right">Rechts</string>
+	<string name="swipe_edge_bottom">Unten</string>
+	<string name="swipe_edge_size">Größe der Kante</string>
+	<string name="swipe_sensitivity">Empfindlichkeit</string>
+
+	<!-- Surface recycling system -->
+	<string name="swipe_recycle_surface">Oberfläche wieder aufbereiten</string>
+	<string name="swipe_recycle_surface_des">Deaktivieren hiervon repariert womöglich Abstürze. \nNUR FÜR FORTGESCHRITTENE NUTZER. \n VERLANGT NEUSTART</string>
+
+	<!-- About -->
+	<string name="swipe_about_title">Über</string>
+	<string name="swipe_version_title">SwipeBack Version</string>
+	<string name="swipe_developers_title">Entwickler</string>
+	<string name="swipe_developers_summary">\@PeterCxy \n\@Issacw0ng</string>
+	<string name="swipe_community_title">Community</string>
+	<string name="swipe_community_summary">Besuche die Seite unserer Community</string>
+	<string name="swipe_community_url">http://forum.xda-developers.com/showthread.php?t=2592116</string>
+	<string name="swipe_website_title">Homepage</string>
+	<string name="swipe_website_summary">Besuche unsere Website</string>
+	<string name="swipe_website_url">http://losp.info</string>
+
+	<!-- Global Settings -->
+	<string name="swipe_global">Allumfassende Einstellungen (Werden von den unteren Einstellungen überschrieben)</string>
+
+	<!-- Reset -->
+	<string name="swipe_reset">Zurücksetzen</string>
+
+</resources>
