@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SwipeBack</string>
+    <string name="app_des">Включает глобальный Swipe жест назад.</string>
+    <string name="please_wait">Пожалуйста, подождите ...</string>
+    <string name="swipe_enable">Свайп Назад</string>
+    <string name="swipe_edge">Область Свайпа</string>
+    <string name="swipe_edge_left">Лево</string>
+    <string name="swipe_edge_right">Право</string>
+    <string name="swipe_edge_bottom">Низ</string>
+    <string name="swipe_edge_size">Размер Края</string>
+    <string name="swipe_sensitivity">Swipe Чувствительность</string>
+    <string name="swipe_recycle_surface">Рециркулировать поверхность</string>
+    <string name="swipe_recycle_surface_des">"Отключение этого может исправить некоторые сбои.
+ТОЛЬКО ДЛЯ ОПЫТНЫХ ПОЛЬЗОВАТЕЛЕЙ.
+ ПОТРЕБУЕТСЯ ПЕРЕЗАГРУЗКА"</string>
+    <string name="swipe_about_title">О модуле</string>
+    <string name="swipe_version_title">SwipeBack Версия</string>
+    <string name="swipe_developers_title">Разработчики</string>
+    <string name="swipe_developers_summary">"\@PeterCxy 
+@Issacw0ng"</string>
+    <string name="swipe_community_title">Сообщество</string>
+    <string name="swipe_community_summary">Доступ к нашему сообществу URL</string>
+    <string name="swipe_community_url">http://forum.xda-developers.com/showthread.php?t=2592116</string>
+    <string name="swipe_website_title">Главная страница</string>
+    <string name="swipe_website_summary">Посетите наш веб-сайт</string>
+    <string name="swipe_website_url">http://losp.info</string>
+    <string name="swipe_global">Глобальные настройки (Могут быть изменены в дальнейшем)</string>
+    <string name="swipe_reset">Сброс</string>
+    <string name="swipe_translator_title">Переводчик</string>
+    <string name="swipe_translator_summary">Gromozavr Stas</string>
+</resources>
