@@ -294,7 +294,8 @@ public class ModSwipeBack implements IXposedHookZygoteInit, IXposedHookLoadPacka
 				if (!(Boolean) msg.obj) {
 					mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 				} else {
-					mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+					mActivity.setRequestedOrientation(Build.VERSION.SDK_INT <= 15 ? 
+							ActivityInfo.SCREEN_ORIENTATION_NOSENSOR : ActivityInfo.SCREEN_ORIENTATION_LOCKED);
 				}
 			}
 		}

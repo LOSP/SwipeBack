@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -453,7 +454,12 @@ public class SwipeBackLayout extends FrameLayout {
     public void computeScroll() {
         mScrimOpacity = 1 - mScrollPercent;
         if (mDragHelper.continueSettling(true)) {
-			this.postInvalidateOnAnimation();
+        	if (Build.VERSION.SDK_INT <= 15) {
+        		this.postInvalidateDelayed(10);
+        		// Workaround from Support Library v4 in ViewCompatImpl
+        	} else {
+        		this.postInvalidateOnAnimation();
+        	}
         }
     }
 
